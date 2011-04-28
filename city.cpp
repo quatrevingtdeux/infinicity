@@ -182,7 +182,8 @@ void LandQuad::Subdivide()
 	std::cout << "area:" << area << std::endl;
 
 	//if (area<10)
-	if (area<3200)
+	if (area<800) // multicentre
+	//if (area < 3200) // un centre
 	{
 		Quadrangle q=Quadrangle(p[0],p[1],p[2],p[3]).Shrink(0.25,0.25,0.25,0.25);
 		//PrismQuad(q,0.5*(1+rand()%5)).Render(); 
@@ -193,8 +194,11 @@ void LandQuad::Subdivide()
 // 		LandTriangle(p[0],p[1],p[2]).Subdivide();
 // 		LandTriangle(p[0],p[2],p[3]).Subdivide();
 		srand(time(NULL));
+		double aleatoire = 0;
+		for (int i = 0; i < 4; i++)
+			aleatoire = area*(rand()%100-50)/100000;
 
-		Vector mid   = p[0]+(p[2]-p[0])/(2+area*(rand()%100-50)/100000);
+		Vector mid   = p[0]+(p[2]-p[0])/(2+aleatoire);
 		Vector mid01 = p[0]+(p[1]-p[0])/2;
 		mid01[0] = mid[0];
 		Vector mid12 = p[1]+(p[2]-p[1])/2;
