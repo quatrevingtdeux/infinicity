@@ -1,6 +1,8 @@
 #include "shape.h"
 #include "city.h"
 #include <vector>
+#include <time.h>
+#include <iostream>
 
 // -BLOCK----------------------------------------------------------------------
 /*!
@@ -108,85 +110,104 @@ Vector gimmeAPoint(const Vector& a, const Vector& b)
 */
 void LandQuad::Subdivide()
 {
-	// Area
-	double area=Area();
+// 	// Area
+// 	double area=Area();
+// 
+// 	// Check if minimal area : in this case stop 
+// 	// land use subdivision and start base building generation
+// 	if (area<30)  
+// 	{
+// 		//Quadrangle q = Quadrangle(p[0], p[1], p[2], p[3])
+// 		//						.Shrink(0.25, 0.25, 0.25, 0.25);
+// 		static double sh=0.25;
+// 		//sh+=0.001;
+// 		Quadrangle q = Quadrangle(p[0], p[1], p[2], p[3]).Shrink(sh,sh,sh,sh);
+// 		//PrismQuad(q, 0.5*(1+rand()%5)).Render();
+// 		PrismQuad(q, 5).Render(); 
+// 	}
+// 	// Land use subdivison
+// 	else
+// 	{
+// 		/*srand(time(NULL));
+// 		if (area > 30)
+// 		{
+// 			Vector real_center(p[0][0]+(p[2][0]-p[0][0])/2,
+// 						    p[0][1]+(p[2][1]-p[0][1])/2,0);
+// 			
+// 			double minx = p[0][0], maxx = p[2][0];
+// 			double miny = p[0][1], maxy = p[2][1];
+// 			double largeur = maxx -minx;
+// 			double thres = 0.1*largeur;
+// 			double rand_x = minx + thres + (rand()%(int)(largeur-2*thres));
+// 			double rand_y = miny + thres + (rand()%(int)(largeur-2*thres));
+// 			/// TODO : passer en valeurs flottantes !
+// 			
+// 			Vector city_center(rand_x,rand_y,0);
+// 			
+// 			
+// 			std::cout << thres << std::endl;
+// 			std::cout << city_center[0] << " " << city_center[1] << std::endl;
+// 			std::vector<Vector> points;
+// 			
+// 			for (int i = 0; i < 4; ++i)
+// 			{
+// 				int nb_points = rand()%3;
+// 				points.push_back(p[i%4]);
+// 				while (nb_points-- > 0)
+// 				{
+// 					std::cout << (i+1)%4 << " " << p[i%4][0] << std::endl;
+// 					points.push_back(gimmeAPoint(p[i%4],p[(i+1)%4]));
+// 				}
+// 				points.push_back(p[(i+1)%4]);
+// 			}
+// 			
+// 			
+// 			
+// 			std::vector<Vector>::iterator ite, ite2 = points.begin();
+// 			ite2++;
+// 			for (ite = points.begin(); ite != points.end(); ++ite)
+// 			{
+// 				if (ite2 == points.end())
+// 					ite = points.begin();
+// 				std::cout << (*ite)[0] << " " << (*ite)[1] << std::endl;
+// 				LandQuad(*ite, *ite2, real_center, real_center)
+// 								.Subdivide();
+// 				ite2++;
+// 			}
+// 			
+// 		}*/
 
-	// Check if minimal area : in this case stop 
-	// land use subdivision and start base building generation
-	if (area<30)  
+// 	}
+	double area=Area();
+	std::cout << "area:" << area << std::endl;
+
+	//if (area<10)
+	if (area<3200)
 	{
-		//Quadrangle q = Quadrangle(p[0], p[1], p[2], p[3])
-		//						.Shrink(0.25, 0.25, 0.25, 0.25);
-		static double sh=0.25;
-		//sh+=0.001;
-		Quadrangle q = Quadrangle(p[0], p[1], p[2], p[3]).Shrink(sh,sh,sh,sh);
-		//PrismQuad(q, 0.5*(1+rand()%5)).Render();
-		PrismQuad(q, 5).Render(); 
+		Quadrangle q=Quadrangle(p[0],p[1],p[2],p[3]).Shrink(0.25,0.25,0.25,0.25);
+		//PrismQuad(q,0.5*(1+rand()%5)).Render(); 
+		PrismQuad(q,5).Render(); 
 	}
-	// Land use subdivison
 	else
 	{
-		/*srand(time(NULL));
-		if (area > 30)
-		{
-			Vector real_center(p[0][0]+(p[2][0]-p[0][0])/2,
-						    p[0][1]+(p[2][1]-p[0][1])/2,0);
-			
-			double minx = p[0][0], maxx = p[2][0];
-			double miny = p[0][1], maxy = p[2][1];
-			double largeur = maxx -minx;
-			double thres = 0.1*largeur;
-			double rand_x = minx + thres + (rand()%(int)(largeur-2*thres));
-			double rand_y = miny + thres + (rand()%(int)(largeur-2*thres));
-			/// TODO : passer en valeurs flottantes !
-			
-			Vector city_center(rand_x,rand_y,0);
-			
-			
-			std::cout << thres << std::endl;
-			std::cout << city_center[0] << " " << city_center[1] << std::endl;
-			std::vector<Vector> points;
-			
-			for (int i = 0; i < 4; ++i)
-			{
-				int nb_points = rand()%3;
-				points.push_back(p[i%4]);
-				while (nb_points-- > 0)
-				{
-					std::cout << (i+1)%4 << " " << p[i%4][0] << std::endl;
-					points.push_back(gimmeAPoint(p[i%4],p[(i+1)%4]));
-				}
-				points.push_back(p[(i+1)%4]);
-			}
-			
-			
-			
-			std::vector<Vector>::iterator ite, ite2 = points.begin();
-			ite2++;
-			for (ite = points.begin(); ite != points.end(); ++ite)
-			{
-				if (ite2 == points.end())
-					ite = points.begin();
-				std::cout << (*ite)[0] << " " << (*ite)[1] << std::endl;
-				LandQuad(*ite, *ite2, real_center, real_center)
-								.Subdivide();
-				ite2++;
-			}
-			
-		}*/
-		LandTriangle(p[0],p[1],p[2]).Subdivide();
-		LandTriangle(p[0],p[2],p[3]).Subdivide();
+// 		LandTriangle(p[0],p[1],p[2]).Subdivide();
+// 		LandTriangle(p[0],p[2],p[3]).Subdivide();
+		srand(time(NULL));
+
+		Vector mid   = p[0]+(p[2]-p[0])/(2+area*(rand()%100-50)/100000);
+		Vector mid01 = p[0]+(p[1]-p[0])/2;
+		mid01[0] = mid[0];
+		Vector mid12 = p[1]+(p[2]-p[1])/2;
+		mid12[1] = mid[1];
+		Vector mid23 = p[2]+(p[3]-p[2])/2;
+		mid23[0] = mid[0];
+		Vector mid03 = p[0]+(p[3]-p[0])/2;
+		mid03[1] = mid[1];
 		
- 		Vector mid01 = p[0]+(p[1]-p[0])/2;
- 		Vector mid12 = p[1]+(p[2]-p[1])/2;
- 		Vector mid23 = p[2]+(p[3]-p[2])/2;
- 		Vector mid03 = p[0]+(p[3]-p[0])/2;
- 		Vector mid   = p[0]+(p[2]-p[0])/2;
- 		
- 		LandQuad(p[0], mid01, mid, mid03).Subdivide();
- 		LandQuad(mid01, p[1], mid12, mid).Subdivide();
- 		LandQuad(mid, mid12, p[2], mid23).Subdivide();
- 		LandQuad(mid03, mid, mid23, p[3]).Subdivide();
+		LandQuad(p[0], mid01, mid, mid03).Subdivide();
+		LandQuad(mid01, p[1], mid12, mid).Subdivide();
+		LandQuad(mid, mid12, p[2], mid23).Subdivide();
+		LandQuad(mid03, mid, mid23, p[3]).Subdivide();
 	}
 }
 
