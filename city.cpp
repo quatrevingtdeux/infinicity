@@ -182,8 +182,8 @@ void LandQuad::Subdivide()
 	std::cout << "area:" << area << std::endl;
 
 	//if (area<10)
-	if (area<800) // multicentre
-	//if (area < 3200) // un centre
+	//if (area<800) // multicentre
+	if (area < 3200) // un centre
 	{
 		Quadrangle q=Quadrangle(p[0],p[1],p[2],p[3]).Shrink(0.25,0.25,0.25,0.25);
 		//PrismQuad(q,0.5*(1+rand()%5)).Render(); 
@@ -199,14 +199,54 @@ void LandQuad::Subdivide()
 			aleatoire = area*(rand()%100-50)/100000;
 
 		Vector mid   = p[0]+(p[2]-p[0])/(2+aleatoire);
+		
+		// pour avoir les milieux des bords
 		Vector mid01 = p[0]+(p[1]-p[0])/2;
-		mid01[0] = mid[0];
+		//mid01[0] = mid[0];
 		Vector mid12 = p[1]+(p[2]-p[1])/2;
-		mid12[1] = mid[1];
+		//mid12[1] = mid[1];
 		Vector mid23 = p[2]+(p[3]-p[2])/2;
-		mid23[0] = mid[0];
+		//mid23[0] = mid[0];
 		Vector mid03 = p[0]+(p[3]-p[0])/2;
-		mid03[1] = mid[1];
+		//mid03[1] = mid[1];
+		
+		// pour avoir des avenues rand
+		double aleatmp = rand();
+		aleatmp = (aleatmp+rand())/aleatmp;
+		aleatmp -= (int) aleatmp;
+		aleatmp = (aleatmp < 0.2f) ? aleatmp+0.2:aleatmp;
+		aleatmp = (aleatmp > 0.8f) ? aleatmp-0.2:aleatmp;
+		std::cout << aleatmp << std::endl;
+		mid01[0] = p[0][0] + aleatmp*(p[1][0]-p[0][0]);
+		//mid01[1] = mid[1];
+		
+		
+		aleatmp = rand();
+		aleatmp = (aleatmp+rand())/aleatmp;
+		aleatmp -= (int) aleatmp;
+		aleatmp = (aleatmp < 0.2f) ? aleatmp+0.2:aleatmp;
+		aleatmp = (aleatmp > 0.8f) ? aleatmp-0.2:aleatmp;
+		std::cout << aleatmp << std::endl;
+		mid12[1] = p[1][1] + aleatmp*(p[2][1]-p[1][1]);
+		
+		
+		aleatmp = rand();
+		aleatmp = (aleatmp+rand())/aleatmp;
+		aleatmp -= (int) aleatmp;
+		aleatmp = (aleatmp < 0.2f) ? aleatmp+0.2:aleatmp;
+		aleatmp = (aleatmp > 0.8f) ? aleatmp-0.2:aleatmp;
+		std::cout << aleatmp << std::endl;
+		mid23[0] = p[2][0] + aleatmp*(p[3][0]-p[2][0]);
+		
+		
+		aleatmp = rand();
+		aleatmp = (aleatmp+rand())/aleatmp;
+		aleatmp -= (int) aleatmp;
+		aleatmp = (aleatmp < 0.2f) ? aleatmp+0.2:aleatmp;
+		aleatmp = (aleatmp > 0.8f) ? aleatmp-0.2:aleatmp;
+		std::cout << aleatmp << std::endl;
+		mid03[1] = p[0][1] + aleatmp*(p[3][1]-p[0][1]);
+		
 		
 		LandQuad(p[0], mid01, mid, mid03).Subdivide();
 		LandQuad(mid01, p[1], mid12, mid).Subdivide();
