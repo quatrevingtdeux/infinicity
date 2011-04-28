@@ -22,26 +22,29 @@ public:
   void Subdivide();
 };
 
-class BlockQuad:public Quadrangle {
-protected:
-public:
-  BlockQuad(const Vector&,const Vector&,const Vector&,const Vector&);
-  void Subdivide();
+class BlockQuad:public Quadrangle
+{
+	protected:
+	public:
+		BlockQuad(const Vector&,const Vector&,const Vector&,const Vector&);
+		void Subdivide();
 };
 
-class LandQuad:public Quadrangle{
-protected:
-public:
-  LandQuad(const Vector&,const Vector&,const Vector&,const Vector&);
-  void Subdivide();
+class LandQuad:public Quadrangle
+{
+	protected:
+	public:
+		LandQuad(const Vector&,const Vector&,const Vector&,const Vector&);
+		void Subdivide();
 };
 
 
-class City {
-private:
-public:
-  City();
-  void Generate();
+class City
+{
+	private:
+	public:
+		City();
+		void Generate();
 };
 
 #endif
