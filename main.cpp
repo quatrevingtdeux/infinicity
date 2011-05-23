@@ -7,7 +7,7 @@
 #include "City/City.h"
 #include "ExportObj/ExportObj.h"
 
-#define FILENAME "toto.define"
+#define FILENAME "obj/test.obj"
 
 int main(int argc, char* argv[])
 {

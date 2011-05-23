@@ -105,6 +105,7 @@ void Viewer::Display(City* city, int width, int height)
 	glEnable(GL_CULL_FACE);
 
 	var.idCity = GenerateCity(city);
+	exporter->Export(city);
 }
 
 
