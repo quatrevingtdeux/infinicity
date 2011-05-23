@@ -22,7 +22,7 @@ void Viewer::Display(City* city, int width, int height)
 	// Création de la fenêtre initiale
 	glutInitWindowSize(800, 450);
 	glutInitWindowPosition(0, 0);
-	GlutVariables.window = glutCreateWindow("Infinicity");
+	var.window = glutCreateWindow("Infinicity");
 	
 	
 	
@@ -94,7 +94,7 @@ void Viewer::Display(City* city, int width, int height)
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 
-	GlutVariables.idCity = GenerateCity();
+	var.idCity = GenerateCity();
 }
 
 
@@ -117,5 +117,71 @@ GLuint Viewer::GenerateCity()
 	glEndList();
 
 	return list;
+}
+
+void Viewer::CityRendering()
+{}
+
+void Viewer::Resize(int width, int height)
+{
+	/*
+	if (height==0)
+	{
+		height=1;
+	}
+	// Set window
+	glViewport (0, 0, width, height);
+
+	// Define the projection matrix
+	glMatrixMode (GL_PROJECTION);
+	glLoadIdentity ();
+	gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,2.0f,500.0f);
+
+	// Back to model space
+	glMatrixMode(GL_MODELVIEW);*/
+	
+}
+
+void Viewer::KeyboardManager(unsigned char key, int x, int y)
+{
+	switch (key)
+	{
+		case 27:
+			glutDestroyWindow(var.window);
+			exit(EXIT_SUCCESS);
+			break;
+		case 'l':
+		case 'L':
+			var.sw.light = 1 - var.sw.light;
+			if (!var.sw.light)
+				glDisable(GL_LIGHTING);
+			else
+				glEnable(GL_LIGHTING);
+			break;
+		case 'r':
+		case 'R':
+			var.sw.rotate = 1 - var.sw.rotate;
+			break;
+	}
+
+	glutPostRedisplay();
+}
+
+void Viewer::MouseMoveManager(int x, int y)
+{
+	var.mouse.x = x;
+	var.mouse.y = y;
+}
+
+void Viewer::MousePushManager(int button, int state, int x, int y)
+{
+	MouseMoveManager(x, y);
+	var.mouse.key = button;
+}
+
+void Viewer::GlutIdle()
+{
+	//t += 1.0f;
+	CityRendering();
 }
 

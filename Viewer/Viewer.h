@@ -29,7 +29,7 @@ class Viewer
 		void GlutIdle();
 		
 		
-		struct var
+		struct GlutVariables
 		{
 			struct Mouse
 			{
@@ -37,11 +37,20 @@ class Viewer
 				int y;
 				int key;
 			};
+			Mouse mouse;
+			
+			struct Switcher
+			{
+				int light;
+				int rotate;
+				float t;
+			};
+			Switcher sw;
 			
 			GLuint idCity;
 			int window;
 		};
-		var GlutVariables;
+		GlutVariables var;
 		
 		City* city;
 };
