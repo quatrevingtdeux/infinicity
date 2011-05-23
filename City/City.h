@@ -6,6 +6,8 @@ class City
 	public:
 		City();
 		~City();
+		
+		void Generate();
 
 	private:
 		
