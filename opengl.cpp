@@ -1,6 +1,7 @@
 // Affichage OpenGL
 // Changelog 06.02.2002
 
+#include <time.h>
 #include "vector.h"
 
 #include "city.h"
@@ -211,6 +212,7 @@ void InitGlut(int width,int height)
 
 int main(int argc,char **argv)
 {
+	srand(time(NULL));
 	glutInit(&argc, argv);
 
 	InitGlut(512,512);
