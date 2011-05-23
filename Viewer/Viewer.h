@@ -2,6 +2,7 @@
 #define VIEWER_H
 
 #include "../City/City.h"
+#include "../ExportObj/ExportObj.h"
 
 #include <GL/glew.h>
 #include <GL/glut.h>
@@ -29,7 +30,7 @@ struct GlutVariables
 class Viewer
 {
 	public:
-		Viewer(int argc, char* argv[]);
+		Viewer(std::string filename, int argc, char* argv[]);
 		~Viewer();
 		
 		void Display(City* city, int width, int height);
@@ -48,6 +49,7 @@ class Viewer
 		
 		static GlutVariables var;
 		City* city;
+		ExportObj* exporter;
 };
 
 #endif

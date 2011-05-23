@@ -5,6 +5,9 @@
 
 #include "Viewer/Viewer.h"
 #include "City/City.h"
+#include "ExportObj/ExportObj.h"
+
+#define FILENAME "toto.define"
 
 int main(int argc, char* argv[])
 {
@@ -12,9 +15,8 @@ int main(int argc, char* argv[])
 	
 	City myCity;
 	
-	Viewer myViewer(argc, argv);
+	Viewer myViewer(std::string(FILENAME), argc, argv);
 	myViewer.Display(&myCity, 512, 512);
 	myViewer.Loop();
-	
 	return EXIT_SUCCESS;
 }

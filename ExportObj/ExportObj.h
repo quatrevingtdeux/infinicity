@@ -1,17 +1,20 @@
 #ifndef EXPORTOBJ_H
 #define EXPORTOBJ_H
 
+#include <fstream>
 #include "../City/City.h"
 
 class ExportObj
 {
 	public:
-		ExportObj();
-		~ExportObj();
+		ExportObj() { filename = "toto.obj";}
+		ExportObj(std::string filename) : filename(filename) {}
+		~ExportObj() {}
 		
-		Export(City* city);
+		void Export(City* city);
 	private:
-
+		std::ofstream file;
+		std::string filename;
 };
 
 #endif

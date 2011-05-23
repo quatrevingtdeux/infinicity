@@ -6,6 +6,7 @@
 #include <GL/glu.h>
 
 #include "Viewer.h"
+#include "../ExportObj/ExportObj.h"
 #include "../Geom/GL/GLColor.h"
 
 GlutVariables Viewer::var = {	0, 0, 0, // mouse
@@ -13,13 +14,16 @@ GlutVariables Viewer::var = {	0, 0, 0, // mouse
 				0.f, // t
 				0.f, (GLuint)0, 0};
 
-Viewer::Viewer(int argc, char* argv[])
+Viewer::Viewer(std::string filename, int argc, char* argv[])
 {
+	exporter = new ExportObj(filename);
 	glutInit(&argc, argv);
 }
 
 Viewer::~Viewer()
-{}
+{
+	delete exporter;	
+}
 
 void Viewer::Display(City* city, int width, int height)
 {
@@ -180,6 +184,9 @@ void Viewer::KeyboardManager(unsigned char key, int x, int y)
 		case 'r':
 		case 'R':
 			var.rotate = 1 - var.rotate;
+			break;
+		case 'p':
+		case 'P':
 			break;
 	}
 
