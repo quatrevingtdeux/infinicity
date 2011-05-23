@@ -2,6 +2,7 @@
 #define BLOCK_H
 
 #include <vector>
+#include "../Geom/Vertex.h"
 
 class Block
 {
@@ -10,7 +11,7 @@ class Block
 		~Block();
 
 	private:
-		
+		std::vector<Vertex*> vertices; // frontiers
 
 };
 

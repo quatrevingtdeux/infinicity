@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Area.h"
+#include "../Geom/Vertex.h"
 
 class City
 {
@@ -15,6 +16,8 @@ class City
 		void Generate();
 
 	private:
+		double size;
+		double humanSize;
 		std::vector<Area*> areas;
 };
 

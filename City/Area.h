@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Block.h"
+#include "../Geom/Vertex.h"
 
 class Area
 {
@@ -14,6 +15,7 @@ class Area
 
 	private:
 		std::vector<Block*> blocks;
+		std::vector<Vertex*> vertices; // frontiers
 };
 
 #endif
