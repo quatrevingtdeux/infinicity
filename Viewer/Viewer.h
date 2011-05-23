@@ -8,6 +8,23 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+struct GlutVariables
+{
+	int mouseX;
+	int mouseY;
+	int mouseKey;
+	
+	int light;
+	int rotate;
+	double rotationSpeed;
+	float alpha;
+	
+	float t;
+	
+	GLuint idCity;
+	int window;
+};
+
 /* this is a viewer just with glut */
 class Viewer
 {
@@ -19,39 +36,17 @@ class Viewer
 		void Loop();
 		
 	private:
-		GLuint GenerateCity();
-		void CityRendering();
-		void Resize(int width, int height);
+		GLuint GenerateCity(City* city);
+		static void CityRendering();
+		static void Resize(int width, int height);
 		
-		void KeyboardManager(unsigned char key, int x, int y);
-		void MouseMoveManager(int x, int y);
-		void MousePushManager(int button, int state, int x, int y);
-		void GlutIdle();
+		static void KeyboardManager(unsigned char key, int x, int y);
+		static void MouseMoveManager(int x, int y);
+		static void MousePushManager(int button, int state, int x, int y);
+		static void GlutIdle();
 		
 		
-		struct GlutVariables
-		{
-			struct Mouse
-			{
-				int x;
-				int y;
-				int key;
-			};
-			Mouse mouse;
-			
-			struct Switcher
-			{
-				int light;
-				int rotate;
-				float t;
-			};
-			Switcher sw;
-			
-			GLuint idCity;
-			int window;
-		};
-		GlutVariables var;
-		
+		static GlutVariables var;
 		City* city;
 };
 

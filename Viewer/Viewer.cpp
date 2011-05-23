@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <GL/gl.h>
@@ -6,6 +7,11 @@
 
 #include "Viewer.h"
 #include "../Geom/GL/GLColor.h"
+
+GlutVariables Viewer::var = {	0, 0, 0, // mouse
+				0, 0, 0.f, 
+				0.f, // t
+				0.f, (GLuint)0, 0};
 
 Viewer::Viewer(int argc, char* argv[])
 {
@@ -29,17 +35,17 @@ void Viewer::Display(City* city, int width, int height)
 	/* *********************************************************************
 	 * Fonctions de gestion de GLUT
 	 * ********************************************************************/
-	/*glutDisplayFunc(GlutRendering);
+	glutDisplayFunc(CityRendering);
 	//glutFullScreen();
 	glutIdleFunc(&GlutIdle);	// Rafraichissement
 	glutReshapeFunc(Resize);	// Changement de taille
-	glutKeyboardFunc(Keyboard);	// Clavier
+	glutKeyboardFunc(KeyboardManager);	// Clavier
 	//glutSpecialFunc(&SpecialKeyboard);
 	
 	// Souris
-	glutMouseFunc(MousePush);
-	glutMotionFunc(MouseMove);
-	*/
+	glutMouseFunc(&MousePushManager);
+	glutMotionFunc(&MouseMoveManager);
+	
 	
 	/* *********************************************************************
 	 * Couleur du fond
@@ -94,7 +100,7 @@ void Viewer::Display(City* city, int width, int height)
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 
-	var.idCity = GenerateCity();
+	var.idCity = GenerateCity(city);
 }
 
 
@@ -103,16 +109,15 @@ void Viewer::Loop()
 	glutMainLoop();
 }
 
-GLuint Viewer::GenerateCity()
+GLuint Viewer::GenerateCity(City* city)
 {
 	GLuint list = glGenLists(1);
 
 	glNewList(list,GL_COMPILE);
 	{
 		GlutShade(0.9f, 0.9f, 0.9f);
-
-		City city;
-		city.Generate();
+		
+		city->Generate();
 	}
 	glEndList();
 
@@ -120,30 +125,44 @@ GLuint Viewer::GenerateCity()
 }
 
 void Viewer::CityRendering()
-{}
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(-40.f, 0.f, 20.f,  0, 0, 0,  0, 0, 1);
+
+	if (var.rotate)
+		var.alpha += var.rotationSpeed;
+	glRotatef(var.alpha, 0.0f, 0.0f, 1.0f);
+	
+	glCallList(var.idCity);
+
+	glutSwapBuffers();
+}
 
 void Viewer::Resize(int width, int height)
 {
-	/*
-	if (height==0)
-	{
-		height=1;
-	}
+	height = (height == 0) ? 1: height;
+	
 	// Set window
-	glViewport (0, 0, width, height);
+	glViewport(0, 0, width, height);
 
 	// Define the projection matrix
-	glMatrixMode (GL_PROJECTION);
-	glLoadIdentity ();
-	gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,2.0f,500.0f);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0f, (GLfloat)width/(GLfloat)height, 2.0f, 500.0f);
 
 	// Back to model space
-	glMatrixMode(GL_MODELVIEW);*/
+	glMatrixMode(GL_MODELVIEW);
 	
 }
 
 void Viewer::KeyboardManager(unsigned char key, int x, int y)
 {
+	(void)x;
+	(void)y;
+	
 	switch (key)
 	{
 		case 27:
@@ -152,15 +171,15 @@ void Viewer::KeyboardManager(unsigned char key, int x, int y)
 			break;
 		case 'l':
 		case 'L':
-			var.sw.light = 1 - var.sw.light;
-			if (!var.sw.light)
+			var.light = 1 - var.light;
+			if (!var.light)
 				glDisable(GL_LIGHTING);
 			else
 				glEnable(GL_LIGHTING);
 			break;
 		case 'r':
 		case 'R':
-			var.sw.rotate = 1 - var.sw.rotate;
+			var.rotate = 1 - var.rotate;
 			break;
 	}
 
@@ -169,19 +188,20 @@ void Viewer::KeyboardManager(unsigned char key, int x, int y)
 
 void Viewer::MouseMoveManager(int x, int y)
 {
-	var.mouse.x = x;
-	var.mouse.y = y;
+	var.mouseX = x;
+	var.mouseY = y;
 }
 
 void Viewer::MousePushManager(int button, int state, int x, int y)
 {
+	(void)state;
 	MouseMoveManager(x, y);
-	var.mouse.key = button;
+	var.mouseKey = button;
 }
 
 void Viewer::GlutIdle()
 {
-	//t += 1.0f;
+	var.t += 1.0f;
 	CityRendering();
 }
 
