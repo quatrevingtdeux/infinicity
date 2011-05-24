@@ -9,7 +9,8 @@ class House
 	public:
 		House();
 		~House();
-
+		
+		void Build();
 	private:
 		std::vector<Vertex*> vertices;
 };

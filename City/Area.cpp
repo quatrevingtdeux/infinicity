@@ -6,3 +6,8 @@ Area::Area()
 
 Area::~Area()
 {}
+
+void Area::Subdivide()
+{
+	
+}

@@ -3,6 +3,10 @@
 
 #include <fstream>
 #include "../City/City.h"
+#include "../City/Area.h"
+#include "../City/Block.h"
+#include "../City/House.h"
+
 
 class ExportObj
 {
@@ -13,6 +17,10 @@ class ExportObj
 		
 		void Export(City* city);
 	private:
+		void ExportArea(Area* area);
+		void ExportBlock(Block* block);
+		void ExportHouse(House* house);
+		
 		std::ofstream file;
 		std::string filename;
 };

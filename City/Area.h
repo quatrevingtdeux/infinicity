@@ -9,6 +9,7 @@ class Area
 {
 	public:
 		Area();
+		Area(std::vector<Vertex*>* frontiers);
 		~Area();
 		
 		void Subdivide();

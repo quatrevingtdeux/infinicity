@@ -7,58 +7,59 @@
 
 class Vertex
 {
-	Vertex() {}
-	Vertex(const double &a, const double &b, const double &c) 
-	: x(a), y(b), z(c) {}
-	
-	double& operator[](int i) {
-			assert(0 <= i && i < 3);
-			if (i == 0)		return x;
-			else if (i == 1)	return y;
-			else			return z;
-		}
+	public :
+		Vertex() {}
+		Vertex(const double &a, const double &b, const double &c) 
+		: x(a), y(b), z(c) {}
+		
+		double& operator[](int i) {
+				assert(0 <= i && i < 3);
+				if (i == 0)		return x;
+				else if (i == 1)	return y;
+				else			return z;
+			}
 
-	const double operator[](int i) const { //TODO  cette ligne génère 3 lignes, à corriger
-			assert(0 <= i && i < 3);
-			if (i == 0)		return x;
-			else if (i == 1)	return y;
-			else			return z;
-		}
-	
-	Vertex operator+() const;
-	Vertex operator-() const;
-	
-	Vertex& operator+= (const Vertex&);
-	Vertex& operator-= (const Vertex&);
-	Vertex& operator*= (const Vertex&);
-	Vertex& operator/= (const Vertex&);
-	Vertex& operator*= (double);
-	Vertex& operator/= (double);
-	
-	
-	friend Vertex operator+ (const Vertex&, const Vertex&);
-	friend Vertex operator- (const Vertex&, const Vertex&);
-	friend double operator* (const Vertex&, const Vertex&);
-	friend Vertex operator* (const Vertex&, double);
-	friend Vertex operator* (double, const Vertex&);
-	friend Vertex operator/ (const Vertex&, double);
+		const double operator[](int i) const { //TODO  cette ligne génère 3 lignes, à corriger
+				assert(0 <= i && i < 3);
+				if (i == 0)		return x;
+				else if (i == 1)	return y;
+				else			return z;
+			}
+		
+		Vertex operator+() const;
+		Vertex operator-() const;
+		
+		Vertex& operator+= (const Vertex&);
+		Vertex& operator-= (const Vertex&);
+		Vertex& operator*= (const Vertex&);
+		Vertex& operator/= (const Vertex&);
+		Vertex& operator*= (double);
+		Vertex& operator/= (double);
+		
+		
+		friend Vertex operator+ (const Vertex&, const Vertex&);
+		friend Vertex operator- (const Vertex&, const Vertex&);
+		friend double operator* (const Vertex&, const Vertex&);
+		friend Vertex operator* (const Vertex&, double);
+		friend Vertex operator* (double, const Vertex&);
+		friend Vertex operator/ (const Vertex&, double);
 
-	friend Vertex operator/ (const Vertex&, const Vertex&);
+		friend Vertex operator/ (const Vertex&, const Vertex&);
 
-	friend int operator==(const Vertex&,const Vertex&);
-	friend int operator!=(const Vertex&,const Vertex&);
-	friend int operator<(const Vertex&,const Vertex&);
-	friend int operator>(const Vertex&,const Vertex&);
-	friend Vertex min(const Vertex&,const Vertex&);
-	friend Vertex max(const Vertex&,const Vertex&);
+		friend int operator==(const Vertex&,const Vertex&);
+		friend int operator!=(const Vertex&,const Vertex&);
+		friend int operator<(const Vertex&,const Vertex&);
+		friend int operator>(const Vertex&,const Vertex&);
+		friend Vertex min(const Vertex&,const Vertex&);
+		friend Vertex max(const Vertex&,const Vertex&);
 
-	friend Vertex Orthogonal(const Vertex&);
+		friend Vertex Orthogonal(const Vertex&);
 
-	// Norm
-	friend double Norm(const Vertex&);
-	friend Vertex Normalized(const Vertex&);
+		// Norm
+		friend double Norm(const Vertex&);
+		friend Vertex Normalized(const Vertex&);
 
-	friend Vertex Random();
+		friend Vertex Random();
 	
 	protected:
 		double x;

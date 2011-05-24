@@ -19,6 +19,7 @@ class City
 		double size;
 		double humanSize;
 		std::vector<Area*> areas;
+		std::vector<Vertex*> frontiers;
 };
 
 #endif

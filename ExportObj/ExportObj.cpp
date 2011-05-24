@@ -33,3 +33,18 @@ void ExportObj::Export(City* city)
 	
 	file.close();
 }
+
+void ExportObj::ExportArea(Area* area)
+{
+	
+}
+
+void ExportObj::ExportBlock(Block* block)
+{
+	
+}
+
+void ExportObj::ExportHouse(House* house)
+{
+	
+}
