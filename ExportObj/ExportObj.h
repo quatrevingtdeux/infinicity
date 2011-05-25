@@ -6,6 +6,7 @@
 #include "../City/Area.h"
 #include "../City/Block.h"
 #include "../City/House.h"
+#include "../Geom/Face.h"
 
 
 class ExportObj
@@ -19,6 +20,8 @@ class ExportObj
 	private:
 		//void ExportVertices(const std::vector<Vertex*>& vertices);
 		void ExportTestCube(const std::vector<Vertex*>& vertices);
+		void ExportTestCube(std::vector<Face*>* faces);
+		void ExportFaces(std::vector<Face*>* faces);
 		
 		std::ofstream file;
 		std::string filename;
