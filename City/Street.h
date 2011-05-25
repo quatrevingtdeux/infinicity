@@ -10,11 +10,13 @@ class Street
 		Street();
 		~Street();
 		
+		void Build();
+		
 		std::vector<Face*> &GetFaces() const { return *faces; }
 	private:
-		Vertex begin;
-		Vertex end;
-		double width;
+		void CreatePlaneStreet();
+		
+		std::vector<Vertex*>* vertices;
 		std::vector<Face*>* faces;
 };
 
