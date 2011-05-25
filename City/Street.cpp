@@ -7,6 +7,11 @@ Street::Street()
 	faces = new std::vector<Face*>();
 }
 
+Street::Street(std::vector<Vertex*>* frontiers) : vertices(frontiers)
+{
+	faces = new std::vector<Face*>();
+}
+
 Street::~Street()
 {
 	delete vertices;

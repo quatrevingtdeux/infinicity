@@ -23,18 +23,24 @@ Block::~Block()
 
 void Block::Generate()
 {
-	Vertex* guilty;
+	// houses
 	std::vector<Vertex*>* houseFrontiers = new std::vector<Vertex*>(*vertices);
 	for (std::vector<Vertex*>::iterator it = houseFrontiers->begin();
 		it != houseFrontiers->end(); ++it)
 	{
-		guilty = *it;
-		*guilty *= 2;
+		(*it) = new Vertex(*(*it));
+		*(*it) *= 0.9f;
 	}
-	
 	House* myHouse = new House(houseFrontiers);
 	houses->push_back(myHouse);
 	
+	// streets
+	std::vector<Vertex*>* streetFrontiers = new std::vector<Vertex*>(*vertices);
+	Street* myStreet = new Street(streetFrontiers);
+	streets->push_back(myStreet);
+	
+	
+	// building
 	std::vector<House*>::iterator iteHouse;
 	for (iteHouse = houses->begin(); iteHouse != houses->end(); ++iteHouse)
 	{

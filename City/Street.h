@@ -8,6 +8,7 @@ class Street
 {
 	public:
 		Street();
+		Street(std::vector<Vertex*>* frontiers);
 		~Street();
 		
 		void Build();
