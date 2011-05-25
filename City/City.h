@@ -17,9 +17,8 @@ class City
 		~City();
 		
 		void Generate();
-		//std::vector<House*> &GetHouses() const;
-		//std::vector<Street*> &GetStreets() const;
 		std::vector<Face*>* GetFaces() const;
+		
 	private:
 		double size;
 		double humanSize;

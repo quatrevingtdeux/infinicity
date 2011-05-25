@@ -6,6 +6,8 @@
 #include "House.h"
 #include "Street.h"
 
+#define HUSIZE 0.5f
+
 class Block
 {
 	public:

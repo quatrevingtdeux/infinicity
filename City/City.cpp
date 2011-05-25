@@ -35,9 +35,26 @@ void City::Generate()
 	frontiers->push_back(new Vertex(-size/2.f,  size/2.f, 0.f));
 	
 	//test area
-	std::vector<Vertex*>* areaFrontiers = new std::vector<Vertex*>(*frontiers);
-	Area* myArea = new Area(areaFrontiers);
+	std::vector<Vertex*>* areaFrontiers;
+	Area* myArea;
+	
+	areaFrontiers = new std::vector<Vertex*>();
+	areaFrontiers->push_back(new Vertex(	-size/2.f,	-size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex( 	      0.f,	-size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex( 	      0.f,	 size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(	-size/2.f,	 size/2.f, 0.f));
+	myArea = new Area(areaFrontiers);
 	areas->push_back(myArea);
+	
+	areaFrontiers = new std::vector<Vertex*>();
+	areaFrontiers->push_back(new Vertex(	     0.f,	-size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(	size/2.f,	-size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(	size/2.f,	 size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(	     0.f,	 size/2.f, 0.f));
+	myArea = new Area(areaFrontiers);
+	areas->push_back(myArea);
+	
+	
 	
 	std::vector<Area*>::iterator iteArea;
 	for (iteArea = areas->begin(); iteArea != areas->end(); ++iteArea)

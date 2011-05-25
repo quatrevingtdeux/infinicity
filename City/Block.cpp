@@ -1,5 +1,6 @@
-
+#include <iostream>
 #include "Block.h"
+#include "../Geom/GeomOp.h"
 
 Block::Block()
 {
@@ -23,14 +24,13 @@ Block::~Block()
 
 void Block::Generate()
 {
+	
 	// houses
+	
 	std::vector<Vertex*>* houseFrontiers = new std::vector<Vertex*>(*vertices);
-	for (std::vector<Vertex*>::iterator it = houseFrontiers->begin();
-		it != houseFrontiers->end(); ++it)
-	{
-		(*it) = new Vertex(*(*it));
-		*(*it) *= 0.9f;
-	}
+	std::cout << " size befor shrink : " << (*houseFrontiers->back())[0] << std::endl;
+	Shrink(*houseFrontiers, 0.5f);
+	std::cout << " size after shrink : " << (*houseFrontiers->back())[0] << std::endl;
 	House* myHouse = new House(houseFrontiers);
 	houses->push_back(myHouse);
 	

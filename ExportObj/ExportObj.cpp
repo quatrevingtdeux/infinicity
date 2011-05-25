@@ -35,7 +35,7 @@ void ExportObj::Export(City* city)
 
 void ExportObj::ExportFaces(std::vector<Face*>* faces)
 {
-	std::cout << "size: " << faces->size() << std::endl;
+	std::cout << "size: " << faces->size() << " faces" << std::endl;
 	
 	std::vector<Face*>::iterator iteFace;
 	std::vector<Vertex*>::iterator iteVertex;
