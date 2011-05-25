@@ -17,7 +17,7 @@ class ExportObj
 		
 		void Export(City* city);
 	private:
-		void ExportVertices(const std::vector<Vertex*>& vertices);
+		//void ExportVertices(const std::vector<Vertex*>& vertices);
 		void ExportTestCube(const std::vector<Vertex*>& vertices);
 		
 		std::ofstream file;

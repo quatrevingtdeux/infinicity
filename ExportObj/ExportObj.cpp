@@ -40,10 +40,8 @@ void ExportObj::Export(City* city)
 	file.close();
 }
 
-void ExportObj::ExportVertices(const std::vector<Vertex*>& vertices)
-{
-	
-}
+/*void ExportObj::ExportVertices(const std::vector<Vertex*>& vertices)
+{}*/
 
 void ExportObj::ExportTestCube(const std::vector<Vertex*>& v)
 {
@@ -59,7 +57,6 @@ void ExportObj::ExportTestCube(const std::vector<Vertex*>& v)
 		file << "v  " << x << "  " << y << "  " << height << std::endl;
 	}
 	
-	int first_id = 1;
 	file << "f  " << 1 << "//  " << 7 << "//  " << 5 << "// " << std::endl;
 	file << "f  " << 1 << "//  " << 3 << "//  " << 7 << "// " << std::endl;
 	file << "f  " << 1 << "//  " << 4 << "//  " << 3 << "// " << std::endl;
