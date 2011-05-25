@@ -73,7 +73,7 @@ std::vector<Face*>* City::GetFaces() const
 	std::vector<Face*> objectFaces;
 	
 	std::vector<Face*>* faces = new std::vector<Face*>();
-	/*
+	
 	for (iteArea = areas->begin(); iteArea != areas->end(); ++iteArea)
 	{
 		blocks = (*iteArea)->GetBlocks();
@@ -103,7 +103,7 @@ std::vector<Face*>* City::GetFaces() const
 				}
 			}
 		}
-	}*/
+	}
 	
 	return faces;
 }
