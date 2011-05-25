@@ -9,13 +9,14 @@ class House
 {
 	public:
 		House();
-		House(std::vector<Vertex*>* frontiers) : vertices(frontiers) {}
+		House(std::vector<Vertex*>* frontiers);
 		~House();
 		
 		void Build();
 		
 		std::vector<Face*> &GetFaces() { return *faces;}
 	private:
+		void CreateCubeField();
 		std::vector<Vertex*>* vertices;
 		std::vector<Face*>* faces;
 };

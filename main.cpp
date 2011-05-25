@@ -25,5 +25,8 @@ int main(int argc, char* argv[])
 	//Viewer myViewer(std::string(FILENAME), argc, argv);
 	//myViewer.Display(&myCity, 512, 512);
 	//myViewer.Loop();
+	
+	std::string cmd("du -bh "FILENAME);
+	system(cmd.c_str());
 	return EXIT_SUCCESS;
 }

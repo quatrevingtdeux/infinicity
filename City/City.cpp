@@ -90,7 +90,7 @@ std::vector<Face*>* City::GetFaces() const
 					faces->push_back((*iteFace));
 				}
 			}
-			
+			/*
 			streets = (*iteBlock)->GetStreets();
 			for (iteStreet = streets.begin(); 
 			     iteStreet != streets.end(); ++iteStreet)
@@ -101,7 +101,7 @@ std::vector<Face*>* City::GetFaces() const
 				{
 					faces->push_back((*iteFace));
 				}
-			}
+			}*/
 		}
 	}
 	
