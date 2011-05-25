@@ -3,6 +3,8 @@
 
 #include <vector>
 #include "Area.h"
+#include "House.h"
+#include "Street.h"
 #include "../Geom/Vertex.h"
 
 class City
@@ -14,6 +16,8 @@ class City
 		~City();
 		
 		void Generate();
+		std::vector<House*> &GetHouses() const;
+		std::vector<Street*> &GetStreets() const;
 
 	private:
 		double size;

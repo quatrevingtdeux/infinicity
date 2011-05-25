@@ -8,11 +8,12 @@ class House
 {
 	public:
 		House();
+		House(std::vector<Vertex*>* frontiers) : vertices(frontiers) {}
 		~House();
 		
 		void Build();
 	private:
-		std::vector<Vertex*> vertices;
+		std::vector<Vertex*>* vertices;
 };
 
 #endif

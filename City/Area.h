@@ -16,7 +16,7 @@ class Area
 
 	private:
 		std::vector<Block*> blocks;
-		std::vector<Vertex*> vertices; // frontiers
+		std::vector<Vertex*>* vertices; // frontiers
 };
 
 #endif

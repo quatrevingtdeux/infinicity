@@ -26,8 +26,15 @@ void City::Generate()
 	frontiers.push_back(new Vertex( size/2.f,  size/2.f, 0.f));
 	frontiers.push_back(new Vertex(-size/2.f,  size/2.f, 0.f));
 	
+	//test area
+	std::vector<Vertex*>* areaFrontiers = new std::vector<Vertex*>(frontiers);
+	Area* myArea = new Area(areaFrontiers);
+	areas.push_back(myArea);
+	areas[0]->Subdivide();
+	
+	
 	// Generate Area	
-	for (int i = 0; i < 4; ++i)
+	/*for (int i = 0; i < 4; ++i)
 	{
 		areas.push_back(new Area());
 	}
@@ -36,5 +43,19 @@ void City::Generate()
 		it != areas.end(); ++it)
 	{
 		(*it)->Subdivide();
-	}
+	}*/
 }
+
+
+std::vector<House*> &City::GetHouses() const
+{
+	
+}
+
+std::vector<Street*> &City::GetStreets() const
+{
+	
+}
+
+
+

@@ -9,13 +9,14 @@ class Block
 {
 	public:
 		Block();
+		Block(std::vector<Vertex*>* frontiers) : vertices(frontiers) {}
 		~Block();
 		
-		void Generate();
+		void Generate() {}
 		
 	private:
 		std::vector<House*> houses;
-		std::vector<Vertex*> vertices; // frontiers
+		std::vector<Vertex*>* vertices; // frontiers
 
 };
 
