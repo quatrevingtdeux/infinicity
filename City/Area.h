@@ -14,8 +14,9 @@ class Area
 		
 		void Subdivide();
 
+		std::vector<Block*> &GetBlocks() const { return *blocks; }
 	private:
-		std::vector<Block*> blocks;
+		std::vector<Block*>* blocks;
 		std::vector<Vertex*>* vertices; // frontiers
 };
 

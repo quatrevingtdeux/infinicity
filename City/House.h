@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "../Geom/Vertex.h"
+#include "../Geom/Face.h"
 
 class House
 {
@@ -12,8 +13,11 @@ class House
 		~House();
 		
 		void Build();
+		
+		std::vector<Face*> &GetFaces() { return *faces;}
 	private:
 		std::vector<Vertex*>* vertices;
+		std::vector<Face*>* faces;
 };
 
 #endif

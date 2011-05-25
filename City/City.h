@@ -6,6 +6,7 @@
 #include "House.h"
 #include "Street.h"
 #include "../Geom/Vertex.h"
+#include "../Geom/Face.h"
 
 class City
 {
@@ -16,14 +17,14 @@ class City
 		~City();
 		
 		void Generate();
-		std::vector<House*> &GetHouses() const;
-		std::vector<Street*> &GetStreets() const;
-
+		//std::vector<House*> &GetHouses() const;
+		//std::vector<Street*> &GetStreets() const;
+		std::vector<Face*>* GetFaces() const;
 	private:
 		double size;
 		double humanSize;
-		std::vector<Area*> areas;
-		std::vector<Vertex*> frontiers;
+		std::vector<Area*>* areas;
+		std::vector<Vertex*>* frontiers;
 };
 
 #endif
