@@ -6,6 +6,5 @@ SRC=$(VIEWER_SRC) $(MAIN_SRC) $(CITY_SRC) $(EXPORT_SRC)
 FLAGS=-Wall -Wextra
 LIBFLAGS=-lGL -lglut -lGLU
 
-
 all:
 	g++ $(SRC) $(FLAGS) $(LIBFLAGS)
