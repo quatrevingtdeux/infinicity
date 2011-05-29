@@ -4,17 +4,9 @@
 
 std::vector<Vertex*> &Shrink(std::vector<Vertex*> &vertices, double percentage)
 {
-	// calcul du centre de gravité de la face
-	Vertex gravityCenter(0.f, 0.f, 0.f);
-	int n = vertices.size();
 	std::vector<Vertex*>::iterator itv;
 	
-	for (itv = vertices.begin(); itv != vertices.end(); ++itv)
-	{
-		gravityCenter[0] += (*itv)->X()/n;
-		gravityCenter[1] += (*itv)->Y()/n;
-		gravityCenter[2] += (*itv)->Z()/n;
-	}
+	Vertex gravityCenter(GravityCenter(vertices));
 	
 	// calcul des normales au point vers le centre de gravité
 	Vertex temp(0.f, 0.f, 0.f);
@@ -42,3 +34,28 @@ std::vector<Vertex*> &Shrink(std::vector<Vertex*> &vertices, double percentage)
 	return vertices;
 }
 
+Vertex GravityCenter(std::vector<Vertex*> &vertices)
+{
+	// calcul du centre de gravité de la face
+	Vertex gravityCenter(0.f, 0.f, 0.f);
+	int n = vertices.size();
+	std::vector<Vertex*>::iterator itv;
+	
+	for (itv = vertices.begin(); itv != vertices.end(); ++itv)
+	{
+		gravityCenter[0] += (*itv)->X()/n;
+		gravityCenter[1] += (*itv)->Y()/n;
+		gravityCenter[2] += (*itv)->Z()/n;
+	}
+	
+	return gravityCenter;	
+}
+
+Vertex GravityCenter(Vertex *vertex1, Vertex *vertex2)
+{
+	std::vector<Vertex*> vertices;
+	vertices.push_back(vertex1);
+	vertices.push_back(vertex2);
+	
+	return GravityCenter(vertices);
+}
