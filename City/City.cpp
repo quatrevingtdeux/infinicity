@@ -1,9 +1,11 @@
 
+#include <iostream>
 #include <iterator>
 #include <ctime>
 
 #include "City.h"
 #include "../Geom/Vertex.h"
+#include "../Geom/GeomOp.h"
 
 double City::HumanSize = 1.0f; // 2 mètres
 
@@ -48,51 +50,40 @@ void City::Generate()
 void City::CreateAreas()
 {
 	double rand = size / HumanSize * 0.2f;
-	Vertex mid(rand, -rand, 0.f);
+	Vertex center(rand, -rand, 0.f);
 	//Vertex mid(5.f, 5.f, 0.f);
-	//test area
-	std::vector<Vertex*>* areaFrontiers;
+	
+	std::vector<Vertex*> *areaFrontiers;
+	Vertex *mid, *mid2;
 	Area* myArea;
 	
-	areaFrontiers = new std::vector<Vertex*>();
-	areaFrontiers->push_back(new Vertex(-size/2.f,	-size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(0.f,	-size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(mid[0],	mid[1], 0.f));
-	areaFrontiers->push_back(new Vertex(-size/2.f,	0.f, 0.f));
-	myArea = new Area(areaFrontiers);
-	areas->push_back(myArea);
-	
-	areaFrontiers = new std::vector<Vertex*>();
-	areaFrontiers->push_back(new Vertex(mid[0],	mid[1], 0.f));
-	areaFrontiers->push_back(new Vertex(size/2.f,	0.f, 0.f));
-	areaFrontiers->push_back(new Vertex(size/2.f,	size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(0.f,	size/2.f, 0.f));
-	myArea = new Area(areaFrontiers);
-	areas->push_back(myArea);
-	
-	areaFrontiers = new std::vector<Vertex*>();
-	areaFrontiers->push_back(new Vertex(0.f,	-size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(size/2.f,	-size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(size/2.f,	0.f, 0.f));
-	areaFrontiers->push_back(new Vertex(mid[0],	mid[1], 0.f));
-	myArea = new Area(areaFrontiers);
-	areas->push_back(myArea);
-	
-	areaFrontiers = new std::vector<Vertex*>();
-	areaFrontiers->push_back(new Vertex(-size/2.f,	0.f, 0.f));
-	areaFrontiers->push_back(new Vertex(mid[0],	mid[1], 0.f));
-	areaFrontiers->push_back(new Vertex(0.f,	size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(-size/2.f,	size/2.f, 0.f));
-	myArea = new Area(areaFrontiers);
-	areas->push_back(myArea);
-	
-	
-	/*
-	// Generate Area	
-	for (int i = 0; i < 4; ++i)
+	// Generate Area
+	for (int i = 0; i < 4; i++)
 	{
-		areas.push_back(new Area());
-	}*/
+		areaFrontiers = new std::vector<Vertex*>();
+		
+		areaFrontiers->push_back(new Vertex(center));
+		areaFrontiers->push_back(frontiers->at(i));
+		mid = new Vertex(GravityCenter(frontiers->at(i),
+					       frontiers->at((i+1)%4)));
+		areaFrontiers->push_back(mid);
+		int n = (i-1)%4;
+		if (n < 0)
+		{
+			mid2 = new Vertex(GravityCenter(frontiers->at(i),
+							frontiers->at(4 + n)));
+		}
+		else
+		{
+			mid2 = new Vertex(GravityCenter(frontiers->at(i),
+							frontiers->at(n)));
+		}
+		areaFrontiers->push_back(mid2);
+		ReArrange(*areaFrontiers);
+		myArea = new Area(areaFrontiers);
+		areas->push_back(myArea);
+			
+	}
 }
 
 
