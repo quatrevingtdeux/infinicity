@@ -12,7 +12,7 @@ double City::HumanSize = 1.0f; // 2 mètres
 
 City::City()
 {
-	size = 4000.0f;
+	size = 40.0f;
 	frontiers = new std::vector<Vertex*>();
 	areas = new std::vector<Area*>();
 }
