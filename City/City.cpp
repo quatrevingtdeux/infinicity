@@ -34,47 +34,90 @@ void City::Generate()
 	frontiers->push_back(new Vertex( size/2.f,  size/2.f, 0.f));
 	frontiers->push_back(new Vertex(-size/2.f,  size/2.f, 0.f));
 	
-	//test area
-	std::vector<Vertex*>* areaFrontiers;
-	Area* myArea;
 	
-	areaFrontiers = new std::vector<Vertex*>();
-	areaFrontiers->push_back(new Vertex(	-size/2.f,	-size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex( 	      0.f,	-size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex( 	      0.f,	 size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(	-size/2.f,	 size/2.f, 0.f));
-	myArea = new Area(areaFrontiers);
-	areas->push_back(myArea);
-	
-	areaFrontiers = new std::vector<Vertex*>();
-	areaFrontiers->push_back(new Vertex(	     0.f,	-size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(	size/2.f,	-size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(	size/2.f,	 size/2.f, 0.f));
-	areaFrontiers->push_back(new Vertex(	     0.f,	 size/2.f, 0.f));
-	myArea = new Area(areaFrontiers);
-	areas->push_back(myArea);
-	
-	
+	// Creating areas
+	CreateAreas();
 	
 	std::vector<Area*>::iterator iteArea;
 	for (iteArea = areas->begin(); iteArea != areas->end(); ++iteArea)
 	{
 		(*iteArea)->Subdivide();
 	}
+}
+
+void City::CreateAreas()
+{
+	double rand = size / humanSize * 0.2f;
+	Vertex mid(rand, -rand, 0.f);
+	
+	//test area
+	std::vector<Vertex*>* areaFrontiers;
+	Area* myArea;
+	
+	areaFrontiers = new std::vector<Vertex*>();
+	areaFrontiers->push_back(new Vertex(-size/2.f,	-size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(0.f,	-size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(mid[0],	mid[1], 0.f));
+	areaFrontiers->push_back(new Vertex(-size/2.f,	      0.f, 0.f));
+	myArea = new Area(areaFrontiers);
+	areas->push_back(myArea);
+	
+	areaFrontiers = new std::vector<Vertex*>();
+	areaFrontiers->push_back(new Vertex(mid[0],	mid[1], 0.f));
+	areaFrontiers->push_back(new Vertex(size/2.f,	0.f, 0.f));
+	areaFrontiers->push_back(new Vertex(size/2.f,	size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(0.f,	size/2.f, 0.f));
+	myArea = new Area(areaFrontiers);
+	areas->push_back(myArea);
+	
+	areaFrontiers = new std::vector<Vertex*>();
+	areaFrontiers->push_back(new Vertex(0.f,	-size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(size/2.f,	-size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(size/2.f,	0.f, 0.f));
+	areaFrontiers->push_back(new Vertex(mid[0],	mid[1], 0.f));
+	myArea = new Area(areaFrontiers);
+	areas->push_back(myArea);
+	
+	areaFrontiers = new std::vector<Vertex*>();
+	areaFrontiers->push_back(new Vertex(-size/2.f,	0.f, 0.f));
+	areaFrontiers->push_back(new Vertex(mid[0],	mid[1], 0.f));
+	areaFrontiers->push_back(new Vertex(0.f,	size/2.f, 0.f));
+	areaFrontiers->push_back(new Vertex(-size/2.f,	size/2.f, 0.f));
+	myArea = new Area(areaFrontiers);
+	areas->push_back(myArea);
+	
+	
 	
 	/*
 	// Generate Area	
 	for (int i = 0; i < 4; ++i)
 	{
 		areas.push_back(new Area());
-	}
-	
-	for (std::vector<Area*>::iterator it = areas.begin();
-		it != areas.end(); ++it)
-	{
-		(*it)->Subdivide();
 	}*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 std::vector<Face*>* City::GetFaces() const
 {
@@ -124,20 +167,3 @@ std::vector<Face*>* City::GetFaces() const
 	
 	return faces;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -20,6 +20,7 @@ class City
 		std::vector<Face*>* GetFaces() const;
 		
 	private:
+		void CreateAreas();
 		double size;
 		double humanSize;
 		std::vector<Area*>* areas;
