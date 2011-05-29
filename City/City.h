@@ -12,17 +12,16 @@ class City
 {
 	public:
 		City();
-		City(double size, // taille de la zone
-		     double humanSize); // echelle de l'homme
+		City(double size); // echelle de la zone
 		~City();
 		
 		void Generate();
 		std::vector<Face*>* GetFaces() const;
 		
+		static double HumanSize;
 	private:
 		void CreateAreas();
 		double size;
-		double humanSize;
 		std::vector<Area*>* areas;
 		std::vector<Vertex*>* frontiers;
 };

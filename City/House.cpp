@@ -2,6 +2,9 @@
 #include <iostream>
 #include <iterator>
 
+#include <cmath>
+
+#include "City.h"
 #include "House.h"
 #include "../Geom/GeomOp.h"
 
@@ -24,7 +27,7 @@ House::~House()
 
 void House::Build()
 {
-	if (Surface(*vertices) >= 20.f)
+	if (sqrt(Surface(*vertices))/City::HumanSize >= 20.f)
 	{
 		//std::cout << "pyramid" << std::endl;
 		CreatePyramid(0.3f);

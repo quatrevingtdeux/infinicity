@@ -5,16 +5,16 @@
 #include "City.h"
 #include "../Geom/Vertex.h"
 
+double City::HumanSize = 1.0f; // 2 mètres
+
 City::City()
 {
-	// here for personnalisation variables
 	size = 40.0f;
-	humanSize = 1.0f; // 2 mètres
 	frontiers = new std::vector<Vertex*>();
 	areas = new std::vector<Area*>();
 }
 
-City::City(double size, double humanSize) : size(size), humanSize(humanSize)
+City::City(double size) : size(size)
 {
 	frontiers = new std::vector<Vertex*>();
 	areas = new std::vector<Area*>();
@@ -47,7 +47,7 @@ void City::Generate()
 
 void City::CreateAreas()
 {
-	double rand = size / humanSize * 0.2f;
+	double rand = size / HumanSize * 0.2f;
 	Vertex mid(rand, -rand, 0.f);
 	//Vertex mid(5.f, 5.f, 0.f);
 	//test area
@@ -58,7 +58,7 @@ void City::CreateAreas()
 	areaFrontiers->push_back(new Vertex(-size/2.f,	-size/2.f, 0.f));
 	areaFrontiers->push_back(new Vertex(0.f,	-size/2.f, 0.f));
 	areaFrontiers->push_back(new Vertex(mid[0],	mid[1], 0.f));
-	areaFrontiers->push_back(new Vertex(-size/2.f,	      0.f, 0.f));
+	areaFrontiers->push_back(new Vertex(-size/2.f,	0.f, 0.f));
 	myArea = new Area(areaFrontiers);
 	areas->push_back(myArea);
 	
@@ -85,7 +85,6 @@ void City::CreateAreas()
 	areaFrontiers->push_back(new Vertex(-size/2.f,	size/2.f, 0.f));
 	myArea = new Area(areaFrontiers);
 	areas->push_back(myArea);
-	
 	
 	
 	/*
