@@ -20,7 +20,7 @@ class City
 		
 		static double HumanSize;
 	private:
-		void CreateAreas();
+		void CreateAreas(std::vector<Vertex*> &vertices);
 		double size;
 		std::vector<Area*>* areas;
 		std::vector<Vertex*>* frontiers;

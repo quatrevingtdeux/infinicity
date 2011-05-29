@@ -1,17 +1,18 @@
 
 #include <iostream>
 #include <iterator>
-#include <ctime>
+#include <cmath>
 
 #include "City.h"
 #include "../Geom/Vertex.h"
 #include "../Geom/GeomOp.h"
+#include "../Misc/Misc.h"
 
 double City::HumanSize = 1.0f; // 2 mètres
 
 City::City()
 {
-	size = 40.0f;
+	size = 4000.0f;
 	frontiers = new std::vector<Vertex*>();
 	areas = new std::vector<Area*>();
 }
@@ -24,6 +25,8 @@ City::City(double size) : size(size)
 
 City::~City()
 {
+	areas->clear();
+	frontiers->clear();
 	delete areas;
 	delete frontiers;
 }
@@ -38,7 +41,7 @@ void City::Generate()
 	
 	
 	// Creating areas
-	CreateAreas();
+	CreateAreas(*frontiers);
 	
 	std::vector<Area*>::iterator iteArea;
 	for (iteArea = areas->begin(); iteArea != areas->end(); ++iteArea)
@@ -47,10 +50,10 @@ void City::Generate()
 	}
 }
 
-void City::CreateAreas()
+void City::CreateAreas(std::vector<Vertex*> &vertices)
 {
 	double rand = size / HumanSize * 0.2f;
-	Vertex center(rand, -rand, 0.f);
+	Vertex center(rand_double(-rand, rand), rand_double(-rand, rand), 0.f);
 	//Vertex mid(5.f, 5.f, 0.f);
 	
 	std::vector<Vertex*> *areaFrontiers;
@@ -63,30 +66,39 @@ void City::CreateAreas()
 		areaFrontiers = new std::vector<Vertex*>();
 		
 		areaFrontiers->push_back(new Vertex(center));
-		areaFrontiers->push_back(frontiers->at(i));
-		mid = new Vertex(GravityCenter(frontiers->at(i),
-					       frontiers->at((i+1)%4)));
+		areaFrontiers->push_back(vertices[i]);
+		mid = new Vertex(GravityCenter(vertices[i],
+					       vertices[(i+1)%4]));
 		areaFrontiers->push_back(mid);
-		int n = (i-1)%4;
+		
+		int n = (i - 1) % 4;
 		if (n < 0)
 		{
-			mid2 = new Vertex(GravityCenter(frontiers->at(i),
-							frontiers->at(4 + n)));
+			mid2 = new Vertex(GravityCenter(vertices[i],
+							vertices[4 + n]));
 		}
 		else
 		{
-			mid2 = new Vertex(GravityCenter(frontiers->at(i),
-							frontiers->at(n)));
+			mid2 = new Vertex(GravityCenter(vertices[i],
+							vertices[n]));
 		}
 		areaFrontiers->push_back(mid2);
 		ReArrange(*areaFrontiers);
 		myArea = new Area(areaFrontiers);
 		areas->push_back(myArea);
-			
 	}
+	
+	/*double max_surface = HumanSize * 10000000.f;
+	for (unsigned int i = 0; i < areas->size(); i++)
+	{
+		std::cout << areas->at(i)->GetSurface() << std::endl;
+		if (areas->at(i)->GetSurface() > max_surface)
+		{
+			// cutting the area
+			CreateAreas(areas->at(i)->GetVertices());
+		}
+	}*/
 }
-
-
 
 
 
