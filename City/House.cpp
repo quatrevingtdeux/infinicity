@@ -1,5 +1,8 @@
 
+#include <iterator>
+
 #include "House.h"
+#include "../Geom/GeomOp.h"
 
 House::House()
 {
@@ -20,20 +23,21 @@ House::~House()
 
 void House::Build()
 {
-	CreateCubeField();
+	//CreateCubeField(*vertices, 0.f, 2.f);
+	CreatePyramid();
 }
 
-void House::CreateCubeField()
+void House::CreateCubeField(std::vector<Vertex*>& vect, 
+				double base, double height)
 {
-	double height = 2.0f;
-	Vertex *v000 = new Vertex(vertices->at(0)->X(), vertices->at(0)->Y(), 0.f);
-	Vertex *v100 = new Vertex(vertices->at(1)->X(), vertices->at(1)->Y(), 0.f);
-	Vertex *v010 = new Vertex(vertices->at(3)->X(), vertices->at(3)->Y(), 0.f);
-	Vertex *v110 = new Vertex(vertices->at(2)->X(), vertices->at(2)->Y(), 0.f);
-	Vertex *v001 = new Vertex(vertices->at(0)->X(), vertices->at(0)->Y(), height);
-	Vertex *v101 = new Vertex(vertices->at(1)->X(), vertices->at(1)->Y(), height);
-	Vertex *v011 = new Vertex(vertices->at(3)->X(), vertices->at(3)->Y(), height);
-	Vertex *v111 = new Vertex(vertices->at(2)->X(), vertices->at(2)->Y(), height);
+	Vertex *v000 = new Vertex(vect.at(0)->X(), vect.at(0)->Y(), base);
+	Vertex *v100 = new Vertex(vect.at(1)->X(), vect.at(1)->Y(), base);
+	Vertex *v010 = new Vertex(vect.at(3)->X(), vect.at(3)->Y(), base);
+	Vertex *v110 = new Vertex(vect.at(2)->X(), vect.at(2)->Y(), base);
+	Vertex *v001 = new Vertex(vect.at(0)->X(), vect.at(0)->Y(), height);
+	Vertex *v101 = new Vertex(vect.at(1)->X(), vect.at(1)->Y(), height);
+	Vertex *v011 = new Vertex(vect.at(3)->X(), vect.at(3)->Y(), height);
+	Vertex *v111 = new Vertex(vect.at(2)->X(), vect.at(2)->Y(), height);
 	std::vector<Vertex*>* tempFaceVert = new std::vector<Vertex*>();
 	
 	//bottom
@@ -84,3 +88,29 @@ void House::CreateCubeField()
 	tempFaceVert->push_back(v111);
 	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
 }
+
+void House::CreatePyramid()
+{
+	CreateCubeField(*vertices, 0.f, 2.f);
+	
+	std::vector<Vertex*>::iterator itv;
+	std::vector<Vertex*>* tempVect = new std::vector<Vertex*>();
+	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
+		tempVect->push_back(new Vertex(*(*itv)));
+	
+	double stepDeep = 0.3f;
+	int i = 1;
+	while (stepDeep * i < 1.0f)
+	{
+		std::vector<Vertex*> temp = Shrink(*tempVect, stepDeep);
+		CreateCubeField(temp, i*2.f, (i+1)*2.f);
+		i++;
+	}
+	
+	tempVect->clear();
+	delete tempVect;
+	
+}
+
+
+
