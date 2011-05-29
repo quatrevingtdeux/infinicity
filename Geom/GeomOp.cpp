@@ -1,5 +1,7 @@
 
 #include <iterator>
+#include <cmath>
+
 #include "GeomOp.h"
 
 std::vector<Vertex*> &Shrink(std::vector<Vertex*> &vertices, double percentage)
@@ -59,3 +61,36 @@ Vertex GravityCenter(Vertex *vertex1, Vertex *vertex2)
 	
 	return GravityCenter(vertices);
 }
+
+double Surface(std::vector<Vertex*> &vertices)
+{
+	double surface = 0.f;
+	
+	// method by Mr Troncy
+	Vertex g = GravityCenter(vertices);
+	for(unsigned int i = 0; i < vertices.size(); i++)
+	{
+		Vertex *v1 = vertices[i];
+		Vertex *v2 = vertices[(i != vertices.size() - 1) ? i : 0];
+
+		double v1_v2 = Distance(*v1, *v2);
+		double v1_g = Distance(*v1, g);
+		double v2_g = Distance(*v2, g);
+
+		double demiperim = (v1_v2 + v1_g + v2_g) / 2.f;
+
+		double triSurf = sqrt(demiperim * (demiperim - v1_v2) 
+					* (demiperim - v1_g) * (demiperim - v2_g));
+
+		surface += triSurf;
+	}
+
+	return surface;
+}
+
+double Distance(Vertex &v1, Vertex &v2)
+{
+	return sqrt(pow(v1[0] - v2[0], 2.f) + pow(v1[1] - v2[1], 2.f));
+}
+
+

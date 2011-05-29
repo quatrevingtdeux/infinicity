@@ -10,4 +10,8 @@ Vertex GravityCenter(std::vector<Vertex*> &vertices);
 
 Vertex GravityCenter(Vertex *vertex1, Vertex *vertex2);
 
+double Surface(std::vector<Vertex*> &vertices);
+
+double Distance(Vertex &v1, Vertex &v2);
+
 #endif

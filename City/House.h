@@ -18,7 +18,8 @@ class House
 	private:
 		void CreateCubeField(std::vector<Vertex*>& vect, 
 					double base, double height);
-		void CreatePyramid();
+		void CreatePyramid(double stepDeep);
+		
 		std::vector<Vertex*>* vertices;
 		std::vector<Face*>* faces;
 };

@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include <iterator>
 
 #include "House.h"
@@ -23,8 +24,16 @@ House::~House()
 
 void House::Build()
 {
-	//CreateCubeField(*vertices, 0.f, 2.f);
-	CreatePyramid();
+	if (Surface(*vertices) >= 20.f)
+	{
+		//std::cout << "pyramid" << std::endl;
+		CreatePyramid(0.3f);
+	}
+	else
+	{
+		//std::cout << "cube" << std::endl;
+		CreateCubeField(*vertices, 0.f, 2.f);
+	}
 }
 
 void House::CreateCubeField(std::vector<Vertex*>& vect, 
@@ -89,7 +98,7 @@ void House::CreateCubeField(std::vector<Vertex*>& vect,
 	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
 }
 
-void House::CreatePyramid()
+void House::CreatePyramid(double stepDeep)
 {
 	CreateCubeField(*vertices, 0.f, 2.f);
 	
@@ -98,7 +107,6 @@ void House::CreatePyramid()
 	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
 		tempVect->push_back(new Vertex(*(*itv)));
 	
-	double stepDeep = 0.3f;
 	int i = 1;
 	while (stepDeep * i < 1.0f)
 	{
@@ -109,8 +117,4 @@ void House::CreatePyramid()
 	
 	tempVect->clear();
 	delete tempVect;
-	
 }
-
-
-
