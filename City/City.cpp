@@ -49,7 +49,7 @@ void City::CreateAreas()
 {
 	double rand = size / humanSize * 0.2f;
 	Vertex mid(rand, -rand, 0.f);
-	
+	//Vertex mid(5.f, 5.f, 0.f);
 	//test area
 	std::vector<Vertex*>* areaFrontiers;
 	Area* myArea;

@@ -16,6 +16,8 @@ class Area
 
 		std::vector<Block*> &GetBlocks() const { return *blocks; }
 	private:
+		void CreateSquareBlocks(int number);
+		
 		std::vector<Block*>* blocks;
 		std::vector<Vertex*>* vertices; // frontiers
 };
