@@ -1,6 +1,8 @@
 
+#include <iostream>
 #include <iterator>
 #include <cmath>
+#include <cassert>
 
 #include "GeomOp.h"
 
@@ -93,4 +95,45 @@ double Distance(Vertex &v1, Vertex &v2)
 	return sqrt(pow(v1[0] - v2[0], 2.f) + pow(v1[1] - v2[1], 2.f));
 }
 
+
+std::vector<Vertex*> &ReArrange(std::vector<Vertex*> &vertices)
+{
+	assert(vertices.size() == 4);
+	
+	Vertex *top_left, *top_right, *bot_left, *bot_right, *g;
+	
+	g = new Vertex(GravityCenter(vertices));
+	top_left = top_right = bot_left = bot_right = g;
+	
+	std::vector<Vertex*>::iterator itv;
+	for (itv = vertices.begin(); itv != vertices.end(); ++itv)
+	{
+		if (min(*(*itv), *top_left) == *(*itv))
+		{ 
+			top_left = *itv;
+		}
+		else if (max(*(*itv), *bot_right) == *(*itv))
+		{ 
+			bot_right = *itv;
+		}
+		else if ((*itv)->X() > top_right->X() 
+			&& (*itv)->Y() < top_right->Y())
+		{
+			top_right = *itv;
+		}
+		else if ((*itv)->X() < bot_left->X()
+			&& (*itv)->Y() > bot_left->Y())
+		{
+			bot_left = *itv;
+		}
+	}
+	delete g;
+	
+	vertices[0] = top_left;
+	vertices[1] = top_right;
+	vertices[2] = bot_right;
+	vertices[3] = bot_left;
+	
+	return vertices;	
+}
 

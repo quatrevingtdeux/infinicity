@@ -14,4 +14,6 @@ double Surface(std::vector<Vertex*> &vertices);
 
 double Distance(Vertex &v1, Vertex &v2);
 
+std::vector<Vertex*> &ReArrange(std::vector<Vertex*> &vertices);
+
 #endif
