@@ -24,20 +24,20 @@ Block::~Block()
 
 void Block::Generate()
 {
-	
-	// houses
-	
-	std::vector<Vertex*>* houseFrontiers = new std::vector<Vertex*>(*vertices);
-	std::cout << " size befor shrink : " << (*houseFrontiers->back())[0] << std::endl;
-	Shrink(*houseFrontiers, 0.5f);
-	std::cout << " size after shrink : " << (*houseFrontiers->back())[0] << std::endl;
-	House* myHouse = new House(houseFrontiers);
-	houses->push_back(myHouse);
+	std::vector<Vertex*>::iterator itv;
 	
 	// streets
 	std::vector<Vertex*>* streetFrontiers = new std::vector<Vertex*>(*vertices);
 	Street* myStreet = new Street(streetFrontiers);
 	streets->push_back(myStreet);
+	
+	// houses
+	std::vector<Vertex*>* houseFrontiers = new std::vector<Vertex*>();
+	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
+		houseFrontiers->push_back(new Vertex(*(*itv)));
+	Shrink(*houseFrontiers, 0.2f);
+	House* myHouse = new House(houseFrontiers);
+	houses->push_back(myHouse);
 	
 	
 	// building
