@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "ImportObj.h"
+#include "../Geom/GeomOp.h"
 
 ImportObj::ImportObj(std::string filename)
 {
@@ -54,8 +55,8 @@ void ImportObj::Import()
 	
 	// --- push triangular faces
 	std::vector<Vertex *> *vert;
-	std::string v[3];
-	int id;
+	std::string v[4];
+	int id, num;
 	while (true)
 	{
 		//std::cout << char_line << std::endl;
@@ -63,13 +64,17 @@ void ImportObj::Import()
 		line >> code;
 		if (code == "f")
 		{
-			line >> v[0] >> v[1] >> v[2];
+			v[3] = " ";
+			line >> v[0] >> v[1] >> v[2] >> v[3];
 			vert = new std::vector<Vertex *>();
-			for (int i = 0; i < 3; i++)
+			
+			num = (v[3] != " ") ? 4 : 3;
+			for (int i = 0; i < num; i++)
 			{
 				id = atoi(v[i].substr(0, v[i].find('/')).c_str());
 				vert->push_back(new Vertex(vertices[id-1]));
 			}
+			
 			faces.push_back(new Face(vert));
 		}
 		
