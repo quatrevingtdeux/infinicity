@@ -2,7 +2,7 @@
 #define VIEWER_H
 
 #include "../City/City.h"
-#include "../ExportObj/ExportObj.h"
+#include "../ObjManager/ExportObj.h"
 
 #include <GL/glew.h>
 #include <GL/glut.h>

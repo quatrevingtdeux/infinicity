@@ -6,7 +6,6 @@
 #include <GL/glu.h>
 
 #include "Viewer.h"
-#include "../ExportObj/ExportObj.h"
 #include "../Geom/GL/GLColor.h"
 
 GlutVariables Viewer::var = {	0, 0, 0, // mouse

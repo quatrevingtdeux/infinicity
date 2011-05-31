@@ -5,7 +5,7 @@
 
 #include "Viewer/Viewer.h"
 #include "City/City.h"
-#include "ExportObj/ExportObj.h"
+#include "ObjManager/ExportObj.h"
 
 #define FILENAME "obj/test.obj"
 
