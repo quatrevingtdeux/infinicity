@@ -30,7 +30,7 @@ void House::Build()
 	if (sqrt(Surface(*vertices))/City::HumanSize >= 20.f)
 	{
 		//std::cout << "pyramid" << std::endl;
-		CreatePyramid(0.3f);
+		CreatePyramid(0.2f);
 	}
 	else
 	{
