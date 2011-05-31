@@ -24,7 +24,8 @@ void Street::Build()
 }
 
 void Street::CreatePlaneStreet()
-{	
+{
+	// TODO lol refaire
 	double height = 0.2f;
 	Vertex *v000 = new Vertex(vertices->at(0)->X(), vertices->at(0)->Y(), 0.f);
 	Vertex *v100 = new Vertex(vertices->at(1)->X(), vertices->at(1)->Y(), 0.f);
@@ -82,5 +83,7 @@ void Street::CreatePlaneStreet()
 	tempFaceVert->push_back(v110);
 	tempFaceVert->push_back(v011);
 	tempFaceVert->push_back(v111);
-	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));	
+	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
+	
+	// TODO ajouter trottoir
 }
