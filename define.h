@@ -3,7 +3,7 @@
 
 #define EXPORT_FILENAME "obj/test.obj"
 
-#define TREE_FILE "obj/tree.obj"
+#define TREE_FILE "obj/cube.obj" // just for test
 
 
 #endif

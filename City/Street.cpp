@@ -1,5 +1,8 @@
+#include <iostream>
 
 #include "Street.h"
+#include "../ObjManager/ImportObj.h"
+#include "../define.h"
 
 Street::Street()
 {
@@ -86,4 +89,17 @@ void Street::CreatePlaneStreet()
 	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
 	
 	// TODO ajouter trottoir
+	
+	
+	// add tree
+	ImportObj tree(TREE_FILE);
+	std::vector<Face*>::iterator itf;
+	std::vector<Face*> treefaces = tree.GetFaces();
+	Vertex* v;
+	for (itf = treefaces.begin(); itf != treefaces.end(); ++itf)
+	{
+		v = vertices->at(0);
+		(*itf)->Translate(v->X(), v->Y(), v->Z());
+		faces->push_back((*itf));	
+	}
 }
