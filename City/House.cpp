@@ -106,18 +106,17 @@ void House::CreatePyramid(double stepDeep)
 	CreateCubeField(*vertices, 0.f, 2.f);
 	
 	std::vector<Vertex*>::iterator itv;
-	std::vector<Vertex*>* tempVect = new std::vector<Vertex*>();
+	std::vector<Vertex*> tempVect;
 	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
-		tempVect->push_back(new Vertex(*(*itv)));
+		tempVect.push_back(new Vertex(*(*itv)));
 	
 	int i = 1;
 	while (stepDeep * i < 1.0f)
 	{
-		std::vector<Vertex*> temp = Shrink(*tempVect, stepDeep);
+		std::vector<Vertex*> temp = Shrink(tempVect, stepDeep);
 		CreateCubeField(temp, i*2.f, (i+1)*2.f);
 		i++;
 	}
 	
-	tempVect->clear();
-	delete tempVect;
+	tempVect.clear();
 }
