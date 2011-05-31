@@ -50,6 +50,12 @@ class Vertex
 		// Norm
 		friend double Norm(const Vertex&);
 		friend Vertex Normalized(const Vertex&);
+		
+		inline void Translate(double dx, double dy, double dz) {
+			x += dx;
+			y += dy;
+			z += dz;
+		}
 
 		friend Vertex Random();
 	
