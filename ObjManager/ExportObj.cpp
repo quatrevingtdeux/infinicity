@@ -14,7 +14,6 @@ void ExportObj::Export(City* city)
 		std::cerr << "Unable to create OBJ file" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	(void)city;
 	
 	std::cout << "write in " << filename << std::endl;
 	
