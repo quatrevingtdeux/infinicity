@@ -12,7 +12,7 @@ double City::HumanSize = 1.0f; // 2 mètres
 
 City::City()
 {
-	size = 40.0f;
+	size = 4000.0f;
 	frontiers = new std::vector<Vertex*>();
 	areas = new std::vector<Area*>();
 }
@@ -52,9 +52,11 @@ void City::Generate()
 
 void City::CreateAreas(std::vector<Vertex*> &vertices)
 {
-	double rand = size / HumanSize * 0.2f;
-	Vertex center(rand_double(-rand, rand), rand_double(-rand, rand), 0.f);
-	//Vertex mid(5.f, 5.f, 0.f);
+	double rand = sqrt(Surface(vertices)) / 2 * 0.3f ;
+	Vertex gCenter(GravityCenter(vertices));
+	Vertex center(	gCenter[0]+rand_double(-rand, rand), 
+			gCenter[1]+rand_double(-rand, rand), 
+			gCenter[2]+0.f);
 	
 	std::vector<Vertex*> *areaFrontiers;
 	Vertex *mid, *mid2;
@@ -84,20 +86,30 @@ void City::CreateAreas(std::vector<Vertex*> &vertices)
 		}
 		areaFrontiers->push_back(mid2);
 		ReArrange(*areaFrontiers);
+		
+		//std::cout << "surface: " << Surface(*areaFrontiers) << std::endl;
 		myArea = new Area(areaFrontiers);
 		areas->push_back(myArea);
 	}
 	
-	/*double max_surface = HumanSize * 10000000.f;
+	double max_surface = HumanSize * 10000.f; // quartier 20 km2 max
 	for (unsigned int i = 0; i < areas->size(); i++)
 	{
-		std::cout << areas->at(i)->GetSurface() << std::endl;
+		
 		if (areas->at(i)->GetSurface() > max_surface)
 		{
+			/*std::cout << "surface " << areas->at(i)->GetSurface();
+			std::cout << " / " << max_surface << std::endl;
+			std::cout << "cut" << std::endl;*/
+			std::vector<Vertex*>* frontiers = new std::vector<Vertex*>(areas->at(i)->GetVertices());
+			delete areas->at(i);
+			areas->erase(areas->begin() + i);
+			
 			// cutting the area
-			CreateAreas(areas->at(i)->GetVertices());
+			CreateAreas(*frontiers);
 		}
-	}*/
+	}
+	//std::cout << "number: " << areas->size() << std::endl;
 }
 
 
