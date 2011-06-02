@@ -104,25 +104,24 @@ std::vector<Vertex*> &ReArrange(std::vector<Vertex*> &vertices)
 	
 	g = new Vertex(GravityCenter(vertices));
 	top_left = top_right = bot_left = bot_right = g;
+	std::cout << "g " << g->X() <<" " << g->Y() <<" " << g->Z() << std::endl;
 	
 	std::vector<Vertex*>::iterator itv;
 	for (itv = vertices.begin(); itv != vertices.end(); ++itv)
 	{
-		if (min(*(*itv), *top_left) == *(*itv))
+		if ((*itv)->X() < g->X() && (*itv)->Y() < g->Y()) // min
 		{ 
 			top_left = *itv;
 		}
-		else if (max(*(*itv), *bot_right) == *(*itv))
+		if ((*itv)->X() > g->X() && (*itv)->Y() > g->Y()) // max
 		{ 
 			bot_right = *itv;
 		}
-		else if ((*itv)->X() > top_right->X() 
-			&& (*itv)->Y() < top_right->Y())
+		if ((*itv)->X() > g->X() && (*itv)->Y() < g->Y())
 		{
 			top_right = *itv;
 		}
-		else if ((*itv)->X() < bot_left->X()
-			&& (*itv)->Y() > bot_left->Y())
+		if ((*itv)->X() < g->X() && (*itv)->Y() > g->Y())
 		{
 			bot_left = *itv;
 		}
@@ -137,3 +136,42 @@ std::vector<Vertex*> &ReArrange(std::vector<Vertex*> &vertices)
 	return vertices;	
 }
 
+std::vector<Vertex*> &ReArrangeBugged(std::vector<Vertex*> &vertices)
+{
+	assert(vertices.size() == 4);
+	
+	Vertex *top_left, *top_right, *bot_left, *bot_right, *g;
+	
+	g = new Vertex(GravityCenter(vertices));
+	top_left = top_right = bot_left = bot_right = g;
+	std::cout << "g " << g->X() <<" " << g->Y() <<" " << g->Z() << std::endl;
+	
+	std::vector<Vertex*>::iterator itv;
+	for (itv = vertices.begin(); itv != vertices.end(); ++itv)
+	{
+		if ((*itv)->X() < g->X() && (*itv)->Y() < g->Y()) // min
+		{ 
+			top_left = *itv;
+		}
+		if ((*itv)->X() > g->X() && (*itv)->Y() > g->Y()) // max
+		{ 
+			bot_right = *itv;
+		}
+		if ((*itv)->X() > g->X() && (*itv)->Y() < g->Y())
+		{
+			top_right = *itv;
+		}
+		if ((*itv)->X() < g->X() && (*itv)->Y() > g->Y())
+		{
+			bot_left = *itv;
+		}
+	}
+	delete g;
+	
+	vertices[0] = top_left;
+	vertices[1] = top_right;
+	vertices[3] = bot_right;
+	vertices[2] = bot_left;
+	
+	return vertices;	
+}

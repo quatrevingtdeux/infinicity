@@ -7,12 +7,13 @@
 #include "../Geom/Vertex.h"
 #include "../Geom/GeomOp.h"
 #include "../Misc/Misc.h"
+#include "../define.h"
 
-double City::HumanSize = 1.0f; // 2 mètres
+double City::HumanSize = HUMAN_SIZE; // 2 mètres
 
 City::City()
 {
-	size = 400.0f;
+	size = CITY_SIZE;
 	frontiers = new std::vector<Vertex*>();
 	areas = new std::vector<Area*>();
 }
@@ -92,7 +93,7 @@ void City::CreateAreas(std::vector<Vertex*> &vertices)
 		areas->push_back(myArea);
 	}
 	
-	double max_surface = HumanSize * 10000.f; // quartier 20 km2 max
+	double max_surface = MAX_AREA_SURFACE; // quartier 20 km2 max
 	for (unsigned int i = 0; i < areas->size(); i++)
 	{
 		

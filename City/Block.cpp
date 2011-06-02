@@ -1,4 +1,6 @@
+
 #include <iostream>
+
 #include "Block.h"
 #include "../Geom/GeomOp.h"
 
@@ -32,13 +34,18 @@ void Block::Generate()
 	streets->push_back(myStreet);
 	
 	// houses
-	std::vector<Vertex*>* houseFrontiers = new std::vector<Vertex*>();
+	/*std::vector<Vertex*>* houseFrontiers = new std::vector<Vertex*>();
 	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
 		houseFrontiers->push_back(new Vertex(*(*itv)));
 	Shrink(*houseFrontiers, 0.2f);
 	House* myHouse = new House(houseFrontiers);
-	houses->push_back(myHouse);
+	houses->push_back(myHouse);*/
 	
+	std::vector<Vertex*> houseFrontiers;
+	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
+		houseFrontiers.push_back(new Vertex(*(*itv)));
+	Shrink(houseFrontiers, 0.2f);
+	GenerateCourtyard4Edges(houseFrontiers);
 	
 	// building
 	std::vector<House*>::iterator iteHouse;
@@ -54,3 +61,32 @@ void Block::Generate()
 	}
 }
 
+void Block::GenerateCourtyard4Edges(std::vector<Vertex*> &vertices)
+{
+	Vertex g(GravityCenter(vertices));
+	Vertex *mid, *mid2;
+	std::vector<Vertex*>* houseFrontiers;
+	
+	for (int i = 0; i < 4; i++)
+	{
+		houseFrontiers = new std::vector<Vertex*>();
+		
+		houseFrontiers->push_back(new Vertex(g));
+		houseFrontiers->push_back(vertices[i]);
+		mid = new Vertex(GravityCenter(vertices[i],
+					       vertices[(i+1)%4]));
+		houseFrontiers->push_back(mid);
+		
+		int n = (i - 1) % 4;
+		if (n < 0)
+			mid2 = new Vertex(GravityCenter(vertices[i], vertices[4 + n]));
+		else
+			mid2 = new Vertex(GravityCenter(vertices[i], vertices[n]));
+		
+		houseFrontiers->push_back(mid2);
+		ReArrange(*houseFrontiers);
+		
+		House* myHouse = new House(houseFrontiers);
+		houses->push_back(myHouse);
+	}
+}

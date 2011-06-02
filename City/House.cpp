@@ -7,6 +7,7 @@
 #include "City.h"
 #include "House.h"
 #include "../Geom/GeomOp.h"
+#include "../Misc/Misc.h"
 
 House::House()
 {
@@ -35,7 +36,8 @@ void House::Build()
 	else
 	{
 		//std::cout << "cube" << std::endl;
-		CreateCubeField(*vertices, 0.f, 2.f);
+		//CreateCubeField(*vertices, 0.2f, rand_int(1,5)*City::HumanSize*2.f);
+		CreatePyramid(0.2f);
 	}
 }
 
@@ -101,6 +103,49 @@ void House::CreateCubeField(std::vector<Vertex*>& vect,
 	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
 }
 
+void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
+{
+	std::vector<Vertex*> ceiling;
+	std::vector<Vertex*>::iterator itv;
+	
+	ceiling.clear();
+	for (itv = vect.begin(); itv != vect.end(); ++itv)
+	{
+		ceiling.push_back(new Vertex((*itv)->X(), (*itv)->Y(), height));
+	}
+	ReArrangeBugged(ceiling);
+	faces->push_back(new Face(new std::vector<Vertex*>(ceiling)));
+	
+	std::vector<Vertex*> *front;
+	for (unsigned int i = 0; i < vect.size(); ++i)
+	{
+		/*front = new std::vector<Vertex*>();
+		
+		front->push_back(new Vertex(vect[i][0], vect[i][1], ));
+		
+		faces->push_back(new Face(front));
+		
+		*/
+	}
+	
+	
+}
+
+void House::CreateWindow(Vertex &topLeft, Vertex &botRight)
+{
+	/*std::vector<Vertex*> vect;
+	vect.push_back(new Vertex(topLeft));
+	vect.push_back(new Vertex(botRight[0], ,topLeft[2]));
+	vect.push_back(new Vertex(botRight));
+	
+	for (int i = 0; i < 4; i++)
+	{
+		
+		
+	}
+	*/
+}
+
 void House::CreatePyramid(double stepDeep)
 {
 	CreateCubeField(*vertices, 0.f, 2.f);
@@ -113,8 +158,9 @@ void House::CreatePyramid(double stepDeep)
 	int i = 1;
 	while (stepDeep * i < 1.0f)
 	{
-		std::vector<Vertex*> temp = Shrink(tempVect, stepDeep);
-		CreateCubeField(temp, i*2.f, (i+1)*2.f);
+		//std::vector<Vertex*> temp = Shrink(tempVect, stepDeep);
+		//CreateCubeField(temp, i*2.f, (i+1)*2.f);
+		CreateStep(tempVect, i*2.f, (i+1)*2.f);
 		i++;
 	}
 	
