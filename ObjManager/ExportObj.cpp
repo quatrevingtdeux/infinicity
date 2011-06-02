@@ -34,7 +34,12 @@ void ExportObj::Export(City* city)
 
 void ExportObj::ExportFaces(std::vector<Face*>* faces)
 {
-	std::cout << "size: " << faces->size() << " faces" << std::endl;
+	std::cout << "size:  \t" << faces->size() << " faces" << std::endl;
+	long int sum_vert = 0;
+	std::vector<Face *>::iterator itf;
+	for (itf = faces->begin(); itf != faces->end(); ++itf)
+		sum_vert += (*itf)->GetVerticesNumber();
+	std::cout << "\t" << sum_vert << " vertices" << std::endl;
 	
 	std::vector<Face*>::iterator iteFace;
 	std::vector<Vertex*>::iterator iteVertex;
