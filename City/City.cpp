@@ -53,6 +53,40 @@ void City::Generate()
 
 void City::CreateAreas(std::vector<Vertex*> &vertices)
 {
+	if (CITY_STYLE == 0)
+	{
+		CreateSquareAreas(vertices);
+	
+	}
+	else if (CITY_STYLE == 1)
+	{
+		
+		
+	}
+	else if (CITY_STYLE == 2)
+	{
+		
+	}
+	
+	double max_surface = MAX_AREA_SURFACE; // quartier 20 km2 max
+	for (unsigned int i = 0; i < areas->size(); i++)
+	{
+		if (areas->at(i)->GetSurface() > max_surface)
+		{
+			std::vector<Vertex*>* frontiers = new std::vector<Vertex*>(areas->at(i)->GetVertices());
+			delete areas->at(i);
+			areas->erase(areas->begin() + i);
+			
+			// cutting the area
+			CreateAreas(*frontiers);
+		}
+	}
+	//std::cout << "number: " << areas->size() << std::endl;
+}
+
+
+void City::CreateSquareAreas(std::vector<Vertex*> &vertices)
+{
 	double rand = sqrt(Surface(vertices)) / 2 * 0.3f ;
 	Vertex gCenter(GravityCenter(vertices));
 	Vertex center(	gCenter[0]+rand_double(-rand, rand), 
@@ -92,29 +126,7 @@ void City::CreateAreas(std::vector<Vertex*> &vertices)
 		myArea = new Area(areaFrontiers);
 		areas->push_back(myArea);
 	}
-	
-	double max_surface = MAX_AREA_SURFACE; // quartier 20 km2 max
-	for (unsigned int i = 0; i < areas->size(); i++)
-	{
-		
-		if (areas->at(i)->GetSurface() > max_surface)
-		{
-			/*std::cout << "surface " << areas->at(i)->GetSurface();
-			std::cout << " / " << max_surface << std::endl;
-			std::cout << "cut" << std::endl;*/
-			std::vector<Vertex*>* frontiers = new std::vector<Vertex*>(areas->at(i)->GetVertices());
-			delete areas->at(i);
-			areas->erase(areas->begin() + i);
-			
-			// cutting the area
-			CreateAreas(*frontiers);
-		}
-	}
-	//std::cout << "number: " << areas->size() << std::endl;
 }
-
-
-
 
 
 

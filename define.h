@@ -5,7 +5,9 @@
 
 #define TREE_FILE "obj/tree.obj"
 
-
+#define CITY_STYLE 0 // carre
+//#define CITY_STYLE 1 // etoile
+//#define CITY_STYLE 2 // americaine
 
 #define HUMAN_SIZE 1.f
 #define CITY_SIZE 400.f
