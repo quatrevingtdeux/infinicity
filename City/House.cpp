@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <iterator>
+#include <cassert>
 
 #include <cmath>
 
@@ -22,6 +23,16 @@ House::House(std::vector<Vertex*>* frontiers) : vertices(frontiers)
 
 House::~House()
 {
+	std::vector<Vertex*>::iterator itv;
+	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
+		delete (*itv);
+	vertices->clear();
+	
+	std::vector<Face*>::iterator itf;
+	for (itf = faces->begin(); itf != faces->end(); ++itf)
+		delete (*itf);
+	faces->clear();
+	
 	delete vertices;
 	delete faces;
 }
@@ -105,10 +116,11 @@ void House::CreateCubeField(std::vector<Vertex*>& vect,
 
 void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
 {
+	assert(base != height);
+	
 	std::vector<Vertex*> ceiling;
 	std::vector<Vertex*>::iterator itv;
 	
-	ceiling.clear();
 	for (itv = vect.begin(); itv != vect.end(); ++itv)
 	{
 		ceiling.push_back(new Vertex((*itv)->X(), (*itv)->Y(), height));
@@ -116,51 +128,95 @@ void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
 	ReArrangeBugged(ceiling);
 	faces->push_back(new Face(new std::vector<Vertex*>(ceiling)));
 	
-	std::vector<Vertex*> *front;
 	for (unsigned int i = 0; i < vect.size(); ++i)
 	{
-		/*front = new std::vector<Vertex*>();
+		Vertex vL(*(vect[i]));
+		Vertex vR(*(vect[(i+1)%4]));
+		int wins = Distance(vL,vR) / (height-base);
 		
-		front->push_back(new Vertex(vect[i][0], vect[i][1], ));
-		
-		faces->push_back(new Face(front));
-		
-		*/
+		if (wins == 1)
+		{
+			Vertex *v = PointOnALine(vL, vR, 0.5f);
+			CreateWindow(vL, *v, base, height);
+			CreateWindow(*v, vR, base, height);
+			delete v;
+		}
+		else
+		{
+			double step =  1.f / wins;
+			double currentS = step;
+			Vertex *v = PointOnALine(vL, vR, currentS);
+			Vertex *v2;
+			CreateWindow(vL, *v, base, height);
+			
+			for (int i = 0; i < wins-2; i++)
+			{
+				currentS += step;
+				v2 = PointOnALine(vL, vR , currentS);
+				CreateWindow(*v, *v2, base, height);
+				delete v;
+				v = v2;
+				/*
+				currentS += step;
+				v = PointOnALine(vL, vR , currentS);
+				CreateWindow(*v2, *v, base, height);
+				delete v2;*/
+			}
+			
+			CreateWindow(*v, vR, base, height);
+			delete v;
+		}
 	}
 	
 	
 }
 
-void House::CreateWindow(Vertex &topLeft, Vertex &botRight)
+void House::CreateWindow(Vertex &vL, Vertex &vR, double base, double height)
 {
-	/*std::vector<Vertex*> vect;
-	vect.push_back(new Vertex(topLeft));
-	vect.push_back(new Vertex(botRight[0], ,topLeft[2]));
-	vect.push_back(new Vertex(botRight));
+	std::vector<Vertex*> front;
+	front.push_back(new Vertex(vL.X(), vL.Y(), base));
+	front.push_back(new Vertex(vL.X(), vL.Y(), height));
+	front.push_back(new Vertex(vR.X(), vR.Y(), height));
+	front.push_back(new Vertex(vR.X(), vR.Y(), base));
 	
+	std::vector<Vertex*> window;
+	std::vector<Vertex*>::iterator itv;
+	for (itv = front.begin(); itv != front.end(); ++itv)
+		window.push_back(new Vertex(*(*itv)));
+	Shrink(window, 0.6f);
+	
+	std::vector<Vertex*>* pan;
 	for (int i = 0; i < 4; i++)
 	{
+		pan = new std::vector<Vertex*>();
 		
+		pan->push_back(new Vertex(*(front[i])));
+		pan->push_back(new Vertex(*(front[(i+1)%4])));
+		pan->push_back(new Vertex(*(window[i])));
+		pan->push_back(new Vertex(*(window[(i+1)%4])));
 		
+		faces->push_back(new Face(pan));
 	}
-	*/
 }
 
 void House::CreatePyramid(double stepDeep)
 {
-	CreateCubeField(*vertices, 0.f, 2.f);
+	//CreateCubeField(*vertices, 0.f, 2.f);
 	
 	std::vector<Vertex*>::iterator itv;
 	std::vector<Vertex*> tempVect;
 	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
 		tempVect.push_back(new Vertex(*(*itv)));
 	
+	
+	// first step
+	CreateStep(tempVect, 0.f, 3.f);
 	int i = 1;
 	while (stepDeep * i < 1.0f)
 	{
 		//std::vector<Vertex*> temp = Shrink(tempVect, stepDeep);
 		//CreateCubeField(temp, i*2.f, (i+1)*2.f);
-		CreateStep(tempVect, i*2.f, (i+1)*2.f);
+		CreateStep(tempVect, 1.f+i*2.f, 1.f+(i+1)*2.f);
 		i++;
 	}
 	

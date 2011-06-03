@@ -14,6 +14,7 @@ class Face
 		void Translate(double x, double y, double z);
 		
 		std::vector<Vertex*> &GetVertices() { return *vertices; }
+		int GetVerticesNumber() { return vertices->size(); }
 	private:
 		std::vector<Vertex*>* vertices;
 };

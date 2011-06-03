@@ -22,7 +22,7 @@ class House
 		
 		void CreateStep(std::vector<Vertex*>& vect, double base, double height);
 		
-		void CreateWindow(Vertex &topLeft, Vertex &botRight);
+		void CreateWindow(Vertex &vL, Vertex &vR, double base, double height);
 		std::vector<Vertex*>* vertices;
 		std::vector<Face*>* faces;
 };

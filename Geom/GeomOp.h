@@ -17,4 +17,5 @@ double Distance(Vertex &v1, Vertex &v2);
 std::vector<Vertex*> &ReArrange(std::vector<Vertex*> &vertices);
 std::vector<Vertex*> &ReArrangeBugged(std::vector<Vertex*> &vertices);
 
+Vertex *PointOnALine(Vertex &v1, Vertex &v2, double percentageFromV1);
 #endif

@@ -104,7 +104,6 @@ std::vector<Vertex*> &ReArrange(std::vector<Vertex*> &vertices)
 	
 	g = new Vertex(GravityCenter(vertices));
 	top_left = top_right = bot_left = bot_right = g;
-	std::cout << "g " << g->X() <<" " << g->Y() <<" " << g->Z() << std::endl;
 	
 	std::vector<Vertex*>::iterator itv;
 	for (itv = vertices.begin(); itv != vertices.end(); ++itv)
@@ -144,7 +143,6 @@ std::vector<Vertex*> &ReArrangeBugged(std::vector<Vertex*> &vertices)
 	
 	g = new Vertex(GravityCenter(vertices));
 	top_left = top_right = bot_left = bot_right = g;
-	std::cout << "g " << g->X() <<" " << g->Y() <<" " << g->Z() << std::endl;
 	
 	std::vector<Vertex*>::iterator itv;
 	for (itv = vertices.begin(); itv != vertices.end(); ++itv)
@@ -174,4 +172,15 @@ std::vector<Vertex*> &ReArrangeBugged(std::vector<Vertex*> &vertices)
 	vertices[2] = bot_left;
 	
 	return vertices;	
+}
+
+Vertex *PointOnALine(Vertex &v1, Vertex &v2, double percentageFromV1)
+{
+	Vertex *v = new Vertex(v1);
+	Vertex norm(v2 - v1);
+	
+	assert(percentageFromV1 <= 1.f);
+	*v += percentageFromV1 * norm;
+	
+	return v;
 }
