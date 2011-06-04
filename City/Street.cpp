@@ -42,7 +42,6 @@ void Street::CreatePlaneStreet()
 		Vertex *tmp = vertices->at(u);
 		vert.push_back(new Vertex(tmp->X(), tmp->Y(), height));
 	}
-	
 	faces->push_back(new Face(new std::vector<Vertex *>(vert)));
 	
 	// TODO ajouter trottoir
@@ -76,3 +75,4 @@ void Street::CreateTriangleStreet()
 	
 	faces->push_back(new Face(new std::vector<Vertex *>(vert)));
 }
+

@@ -33,20 +33,17 @@ void Block::Generate()
 	Street* myStreet = new Street(streetFrontiers);
 	streets->push_back(myStreet);
 	
-	// houses
-	/*std::vector<Vertex*>* houseFrontiers = new std::vector<Vertex*>();
-	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
-		houseFrontiers->push_back(new Vertex(*(*itv)));
-	Shrink(*houseFrontiers, 0.2f);
-	House* myHouse = new House(houseFrontiers);
-	houses->push_back(myHouse);*/
+	// houses	
+	if (vertices->size() == 4)
+	{
+		std::vector<Vertex*> houseFrontiers;
+		for (itv = vertices->begin(); itv != vertices->end(); ++itv)
+			houseFrontiers.push_back(new Vertex(*(*itv)));
+		Shrink(houseFrontiers, 0.2f);
+		GenerateCourtyard4Edges(houseFrontiers);
+	}
 	
-	std::vector<Vertex*> houseFrontiers;
-	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
-		houseFrontiers.push_back(new Vertex(*(*itv)));
-	Shrink(houseFrontiers, 0.2f);
-	GenerateCourtyard4Edges(houseFrontiers);
-	
+	// ---------------------------------------------------------------------------
 	// building
 	std::vector<House*>::iterator iteHouse;
 	for (iteHouse = houses->begin(); iteHouse != houses->end(); ++iteHouse)
@@ -63,6 +60,11 @@ void Block::Generate()
 
 void Block::GenerateCourtyard4Edges(std::vector<Vertex*> &vertices)
 {
+	
+	House* myStreet = new House(new std::vector<Vertex*>(vertices));
+	houses->push_back(myStreet);
+	/*	
+	
 	Vertex g(GravityCenter(vertices));
 	Vertex *mid, *mid2;
 	std::vector<Vertex*>* houseFrontiers;
@@ -84,9 +86,11 @@ void Block::GenerateCourtyard4Edges(std::vector<Vertex*> &vertices)
 			mid2 = new Vertex(GravityCenter(vertices[i], vertices[n]));
 		
 		houseFrontiers->push_back(mid2);
-		ReArrange(*houseFrontiers);
+		ReArrangeBugged(*houseFrontiers);
 		
 		House* myHouse = new House(houseFrontiers);
 		houses->push_back(myHouse);
 	}
+	
+	*/
 }

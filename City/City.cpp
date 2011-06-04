@@ -40,10 +40,11 @@ void City::Generate()
 	frontiers->push_back(new Vertex( size/2.f,  size/2.f, 0.f));
 	frontiers->push_back(new Vertex(-size/2.f,  size/2.f, 0.f));
 	
-	
 	// Creating areas
 	CreateAreas(*frontiers);
 	
+	
+	// ---------------------------------------------------------------------------
 	std::vector<Area*>::iterator iteArea;
 	for (iteArea = areas->begin(); iteArea != areas->end(); ++iteArea)
 	{
@@ -56,17 +57,13 @@ void City::CreateAreas(std::vector<Vertex*> &vertices)
 	if (CITY_STYLE == 0)
 	{
 		CreateSquareAreas(vertices);
-	
 	}
 	else if (CITY_STYLE == 1)
 	{
-		
-		
+		CreateStarAreas(vertices);
 	}
 	else if (CITY_STYLE == 2)
-	{
-		
-	}
+	{}
 	
 	double max_surface = MAX_AREA_SURFACE; // quartier 20 km2 max
 	for (unsigned int i = 0; i < areas->size(); i++)
@@ -128,7 +125,50 @@ void City::CreateSquareAreas(std::vector<Vertex*> &vertices)
 	}
 }
 
-
+void City::CreateStarAreas(std::vector<Vertex*> &vertices)
+{
+	double rand = sqrt(Surface(vertices)) / 2 * 0.3f ;
+	Vertex gCenter(GravityCenter(vertices));
+	Vertex center(	gCenter[0]+rand_double(-rand, rand), 
+			gCenter[1]+rand_double(-rand, rand), 
+			gCenter[2]+0.f);
+	
+	std::vector<Vertex*> *areaFrontiers;
+	//Vertex *mid, *mid2;
+	Area* myArea;
+	
+	// Generate Area
+	for (int i = 0; i < 4; i++)
+	{
+		areaFrontiers = new std::vector<Vertex*>();
+		
+		areaFrontiers->push_back(new Vertex(center));
+		areaFrontiers->push_back(vertices[i]);
+		areaFrontiers->push_back(vertices[(i+1)%4]);
+		/*mid = new Vertex(GravityCenter(vertices[i],
+					       vertices[(i+1)%4]));
+		areaFrontiers->push_back(mid);
+		
+		int n = (i - 1) % 4;
+		if (n < 0)
+		{
+			mid2 = new Vertex(GravityCenter(vertices[i],
+							vertices[4 + n]));
+		}
+		else
+		{
+			mid2 = new Vertex(GravityCenter(vertices[i],
+							vertices[n]));
+		}
+		areaFrontiers->push_back(mid2);*/
+		//ReArrange(*areaFrontiers);
+		
+		std::cout << "surface: " << Surface(*areaFrontiers) << std::endl;
+		myArea = new Area(areaFrontiers);
+		areas->push_back(myArea);
+	}
+	
+}
 
 
 

@@ -22,6 +22,8 @@ class City
 	private:
 		void CreateAreas(std::vector<Vertex*> &vertices);
 		void CreateSquareAreas(std::vector<Vertex*> &vertices);
+		void CreateStarAreas(std::vector<Vertex*> &vertices);
+		
 		double size;
 		std::vector<Area*>* areas;
 		std::vector<Vertex*>* frontiers;

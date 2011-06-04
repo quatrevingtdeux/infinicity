@@ -42,19 +42,25 @@ void House::Build()
 	if (sqrt(Surface(*vertices))/City::HumanSize >= 20.f)
 	{
 		//std::cout << "pyramid" << std::endl;
-		CreatePyramid(0.2f);
+		//CreatePyramid(0.2f);
+		//CreateCubeField(*vertices, 0.2f, 20.f);
 	}
 	else
 	{
 		//std::cout << "cube" << std::endl;
-		//CreateCubeField(*vertices, 0.2f, rand_int(1,5)*City::HumanSize*2.f);
-		CreatePyramid(0.2f);
+		
+		//CreatePyramid(rand_double(0.1f, 0.8f));
 	}
+	
+	CreateCubeField(*vertices, 0.2f, 2.f);
 }
+
 
 void House::CreateCubeField(std::vector<Vertex*>& vect, 
 				double base, double height)
 {
+	// TEST FUNCTION, DON'T WASTE TIME TO CLEAN
+	
 	Vertex *v000 = new Vertex(vect.at(0)->X(), vect.at(0)->Y(), base);
 	Vertex *v100 = new Vertex(vect.at(1)->X(), vect.at(1)->Y(), base);
 	Vertex *v010 = new Vertex(vect.at(3)->X(), vect.at(3)->Y(), base);
@@ -156,11 +162,6 @@ void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
 				CreateWindow(*v, *v2, base, height);
 				delete v;
 				v = v2;
-				/*
-				currentS += step;
-				v = PointOnALine(vL, vR , currentS);
-				CreateWindow(*v2, *v, base, height);
-				delete v2;*/
 			}
 			
 			CreateWindow(*v, vR, base, height);
@@ -208,9 +209,10 @@ void House::CreatePyramid(double stepDeep)
 	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
 		tempVect.push_back(new Vertex(*(*itv)));
 	
-	
 	// first step
 	CreateStep(tempVect, 0.f, 3.f);
+	
+	// others steps
 	int i = 1;
 	while (stepDeep * i < 1.0f)
 	{

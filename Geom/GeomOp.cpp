@@ -4,6 +4,8 @@
 #include <cmath>
 #include <cassert>
 
+#define PI 3.14159265f
+
 #include "GeomOp.h"
 
 std::vector<Vertex*> &Shrink(std::vector<Vertex*> &vertices, double percentage)
@@ -66,6 +68,7 @@ Vertex GravityCenter(Vertex *vertex1, Vertex *vertex2)
 
 double Surface(std::vector<Vertex*> &vertices)
 {
+	assert(vertices.size() > 2);
 	double surface = 0.f;
 	
 	// method by Mr Troncy
@@ -183,4 +186,25 @@ Vertex *PointOnALine(Vertex &v1, Vertex &v2, double percentageFromV1)
 	*v += percentageFromV1 * norm;
 	
 	return v;
+}
+
+
+double AngleOfView(Vertex &v0, Vertex &v1, Vertex &v2)
+{
+	Vertex va(v1 - v0);
+	Vertex vb(v2 - v0);
+	
+	double a, b;
+	a = sqrt(va.X()*va.X() + va.Y()*va.Y());
+	b = sqrt(vb.X()*vb.X() + vb.Y()*vb.Y());
+	
+	if (a == 0.f || b == 0.f)
+		return 0.f;
+	
+	double cosinus, t;
+	cosinus = (va.X()*vb.X() + va.Y()*vb.Y()) / (a*b);
+	t = acos(cosinus);
+	t = t * 180.f / PI;
+	
+	return t;
 }
