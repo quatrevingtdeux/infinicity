@@ -52,7 +52,8 @@ void House::Build()
 		//CreatePyramid(rand_double(0.1f, 0.8f));
 	}
 	
-	CreateCubeField(*vertices, 0.2f, 2.f);
+	//CreateCubeField(*vertices, 0.2f, 2.f);
+	CreatePyramid(rand_double(0.1f, 0.8f));
 }
 
 
@@ -60,6 +61,7 @@ void House::CreateCubeField(std::vector<Vertex*>& vect,
 				double base, double height)
 {
 	// TEST FUNCTION, DON'T WASTE TIME TO CLEAN
+	assert(vect.size() == 4);
 	
 	Vertex *v000 = new Vertex(vect.at(0)->X(), vect.at(0)->Y(), base);
 	Vertex *v100 = new Vertex(vect.at(1)->X(), vect.at(1)->Y(), base);
@@ -131,13 +133,15 @@ void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
 	{
 		ceiling.push_back(new Vertex((*itv)->X(), (*itv)->Y(), height));
 	}
-	ReArrangeBugged(ceiling);
+	if (vect.size() == 4)
+		ReArrangeBugged(ceiling);
 	faces->push_back(new Face(new std::vector<Vertex*>(ceiling)));
 	
-	for (unsigned int i = 0; i < vect.size(); ++i)
+	unsigned int n = vect.size();
+	for (unsigned int i = 0; i < n; ++i)
 	{
 		Vertex vL(*(vect[i]));
-		Vertex vR(*(vect[(i+1)%4]));
+		Vertex vR(*(vect[(i+1)%n]));
 		int wins = Distance(vL,vR) / (height-base);
 		
 		if (wins == 1)

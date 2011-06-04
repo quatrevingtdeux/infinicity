@@ -61,8 +61,20 @@ void Block::Generate()
 void Block::GenerateCourtyard4Edges(std::vector<Vertex*> &vertices)
 {
 	
-	House* myStreet = new House(new std::vector<Vertex*>(vertices));
+	Vertex *v1 = PointOnALine(*vertices[0], *vertices[1], 0.5f);
+	Vertex *v2 = PointOnALine(*vertices[0], *vertices[3], 0.5f);
+	Vertex *mid = new Vertex(GravityCenter(v1, v2));
+	
+	std::vector<Vertex *> vect;
+	vect.push_back(vertices[0]);
+	vect.push_back(v1);
+	//vect.push_back(mid);
+	vect.push_back(v2);
+	
+	House* myStreet = new House(new std::vector<Vertex*>(vect));
 	houses->push_back(myStreet);
+	
+	
 	/*	
 	
 	Vertex g(GravityCenter(vertices));
