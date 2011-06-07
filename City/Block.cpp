@@ -3,6 +3,7 @@
 
 #include "Block.h"
 #include "../Geom/GeomOp.h"
+#include "../Misc/Misc.h"
 
 Block::Block()
 {
@@ -40,7 +41,8 @@ void Block::Generate()
 		for (itv = vertices->begin(); itv != vertices->end(); ++itv)
 			houseFrontiers.push_back(new Vertex(*(*itv)));
 		Shrink(houseFrontiers, 0.2f);
-		GenerateCourtyard4Edges(houseFrontiers);
+		//GenerateCourtyard4Edges(houseFrontiers);
+		GenerateActualRepartition(houseFrontiers);
 	}
 	
 	// ---------------------------------------------------------------------------
@@ -60,10 +62,10 @@ void Block::Generate()
 
 void Block::GenerateCourtyard4Edges(std::vector<Vertex*> &vertices)
 {
-	
+	/*
 	Vertex *v1 = PointOnALine(*vertices[0], *vertices[1], 0.5f);
 	Vertex *v2 = PointOnALine(*vertices[0], *vertices[3], 0.5f);
-	Vertex *mid = new Vertex(GravityCenter(v1, v2));
+	//Vertex *mid = new Vertex(GravityCenter(v1, v2));
 	
 	std::vector<Vertex *> vect;
 	vect.push_back(vertices[0]);
@@ -74,8 +76,9 @@ void Block::GenerateCourtyard4Edges(std::vector<Vertex*> &vertices)
 	House* myStreet = new House(new std::vector<Vertex*>(vect));
 	houses->push_back(myStreet);
 	
+	*/
 	
-	/*	
+		
 	
 	Vertex g(GravityCenter(vertices));
 	Vertex *mid, *mid2;
@@ -98,11 +101,90 @@ void Block::GenerateCourtyard4Edges(std::vector<Vertex*> &vertices)
 			mid2 = new Vertex(GravityCenter(vertices[i], vertices[n]));
 		
 		houseFrontiers->push_back(mid2);
-		ReArrangeBugged(*houseFrontiers);
+		ReArrange(*houseFrontiers);
 		
 		House* myHouse = new House(houseFrontiers);
 		houses->push_back(myHouse);
 	}
 	
-	*/
+}
+
+
+void Block::GenerateActualRepartition(std::vector<Vertex *> &vert)
+{
+	assert(vert.size() == 4);
+	
+	// max deep
+	std::vector<Vertex *>::iterator itv;
+	std::vector<Vertex *> deep;
+	for (itv = vert.begin(); itv != vert.end(); ++itv)
+		deep.push_back(new Vertex(*(*itv)));
+	Shrink(deep, 0.5f);
+	
+	
+	unsigned int n = vert.size();
+	for (unsigned int i = 0; i < n; i++)
+	{
+		/*// seguier method
+		// angular house
+		std::vector<Vertex *> *houseFr = new std::vector<Vertex *>();
+		houseFr->push_back(new Vertex(vert[(i+1)%n]));
+		//Vertex *projV = new Vertex();
+		//houseFr->push_back();
+		houseFr->push_back(new Vertex(deep[(i+1)%n]));
+		//Vertex *projV = new Vertex();
+		//houseFr->push_back();
+		
+		
+		
+		double hss = Distance(*vert[i], *vert[(i+1)%n]) / MIN_HOUSE_WIDTH;
+		*/
+		
+		
+		double dist = Distance(*vert[i], *vert[(i+1)%n]) * 0.8f;
+		double percMin = 0.1f;
+		double percMax = 0.3f;
+		double currPerc;
+		
+		double sum = 0.1f;
+		while (sum < 0.9f)
+		{
+			currPerc = rand_double(percMin, percMax);
+			if (sum + currPerc + percMin > 0.9f)
+				currPerc = 0.9f - sum;
+			
+			std::cout << "sum " << sum << std::endl;
+			std::cout << "currPerc" << currPerc << std::endl;
+			
+			
+			std::vector<Vertex *> *houseFrontiers = 
+						new std::vector<Vertex *>();
+			Vertex *first = PointOnALine(*vert[i], 
+						     *vert[(i+1)%n], sum);
+			houseFrontiers->push_back(first);
+			Vertex *second = PointOnALine(*vert[i], 
+						      *vert[(i+1)%n], sum+currPerc);
+			houseFrontiers->push_back(second);
+			
+			Vertex *sdShr = PointOnALine(*deep[i], 
+						     *deep[(i+1)%n], sum+currPerc);
+			houseFrontiers->push_back(sdShr);
+			Vertex *fstShr = PointOnALine(*deep[i], 
+						      *deep[(i+1)%n], sum);
+			houseFrontiers->push_back(fstShr);
+			//ReArrange(*houseFrontiers);
+			
+			House *myHouse = new House(houseFrontiers);
+			houses->push_back(myHouse);
+			
+			sum += currPerc;
+		}
+		std::cout << std::endl;
+		
+		
+		// angular houses	
+	}
+	
+	
+	
 }

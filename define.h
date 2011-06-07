@@ -5,9 +5,7 @@
 
 #define TREE_FILE "obj/tree.obj"
 
-//#define CITY_STYLE 0 // carre
-#define CITY_STYLE 1 // etoile
-//#define CITY_STYLE 2 // americaine
+#define CITY_STYLE 0 // 0 = squared / 1 = star
 
 #define HUMAN_SIZE 1.f
 #define CITY_SIZE 400.f
@@ -20,5 +18,8 @@
 
 #define MIN_HOUSE_SURFACE
 #define MAX_HOUSE_SURFACE
+
+#define MIN_HOUSE_WIDTH
+#define MAX_HOUSE_WIDTH
 
 #endif

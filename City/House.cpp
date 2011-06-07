@@ -127,14 +127,12 @@ void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
 	assert(base != height);
 	
 	std::vector<Vertex*> ceiling;
-	std::vector<Vertex*>::iterator itv;
 	
-	for (itv = vect.begin(); itv != vect.end(); ++itv)
+	for (int i = 0; i < 4; i++)
 	{
-		ceiling.push_back(new Vertex((*itv)->X(), (*itv)->Y(), height));
+		int u = (i == 2) ? 3 : ((i == 3) ? 2 : i);
+		ceiling.push_back(new Vertex((vect[u])->X(), (vect[u])->Y(), height));
 	}
-	if (vect.size() == 4)
-		ReArrangeBugged(ceiling);
 	faces->push_back(new Face(new std::vector<Vertex*>(ceiling)));
 	
 	unsigned int n = vect.size();
@@ -172,9 +170,37 @@ void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
 			delete v;
 		}
 	}
+}
+
+
+void House::CreateRoof(std::vector<Vertex*> &vect, double base, double height)
+{
+	assert(base != height);
+	assert(vect.size() == 4);
 	
+	std::vector<Vertex*> roofPan;
+	
+	if (vect.size() == 4)
+		ReArrangeBugged(vect);
+	
+	Vertex mid1(GravityCenter(vect[0], vect[1]));
+	Vertex mid2(GravityCenter(vect[2], vect[3]));
+	
+	roofPan.push_back(new Vertex(*vect[0]));
+	roofPan.push_back(new Vertex(mid1));
+	roofPan.push_back(new Vertex(mid2));
+	roofPan.push_back(new Vertex(*vect[3]));
+	faces->push_back(new Face(new std::vector<Vertex*>(roofPan)));
+	
+	roofPan.clear();
+	roofPan.push_back(new Vertex(*vect[1]));
+	roofPan.push_back(new Vertex(mid1));
+	roofPan.push_back(new Vertex(mid2));
+	roofPan.push_back(new Vertex(*vect[2]));
+	faces->push_back(new Face(new std::vector<Vertex*>(roofPan)));
 	
 }
+
 
 void House::CreateWindow(Vertex &vL, Vertex &vR, double base, double height)
 {
@@ -225,6 +251,8 @@ void House::CreatePyramid(double stepDeep)
 		CreateStep(tempVect, 1.f+i*2.f, 1.f+(i+1)*2.f);
 		i++;
 	}
+	//if (vertices->size() == 4)
+	//	CreateRoof(tempVect, 1.f+i*2.f, 1.f+(i+1)*2.f);
 	
 	tempVect.clear();
 }

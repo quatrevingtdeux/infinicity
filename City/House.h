@@ -20,7 +20,8 @@ class House
 					double base, double height);
 		void CreatePyramid(double stepDeep);
 		
-		void CreateStep(std::vector<Vertex*>& vect, double base, double height);
+		void CreateStep(std::vector<Vertex*> &vect, double base, double height);
+		void CreateRoof(std::vector<Vertex*> &vect, double base, double height);
 		
 		void CreateWindow(Vertex &vL, Vertex &vR, double base, double height);
 		std::vector<Vertex*>* vertices;

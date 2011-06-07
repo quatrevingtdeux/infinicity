@@ -21,7 +21,7 @@ class Block
 		const std::vector<Street*> &GetStreets() const { return *streets; }
 	private:
 		void GenerateCourtyard4Edges(std::vector<Vertex*> &vertices);
-		
+		void GenerateActualRepartition(std::vector<Vertex *> &vertices);
 		std::vector<House*>* houses;
 		std::vector<Street*>* streets;
 		std::vector<Vertex*>* vertices; // frontiers
