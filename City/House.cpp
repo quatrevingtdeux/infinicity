@@ -25,12 +25,16 @@ House::~House()
 {
 	std::vector<Vertex*>::iterator itv;
 	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
+	{
 		delete (*itv);
+	}
 	vertices->clear();
 	
 	std::vector<Face*>::iterator itf;
 	for (itf = faces->begin(); itf != faces->end(); ++itf)
+	{
 		delete (*itf);
+	}
 	faces->clear();
 	
 	delete vertices;
@@ -39,88 +43,15 @@ House::~House()
 
 void House::Build()
 {
+	double max_step = 8.f;
 	if (sqrt(Surface(*vertices))/City::HumanSize >= 20.f)
 	{
-		//std::cout << "pyramid" << std::endl;
-		//CreatePyramid(0.2f);
-		//CreateCubeField(*vertices, 0.2f, 20.f);
-	}
-	else
-	{
-		//std::cout << "cube" << std::endl;
-		
-		//CreatePyramid(rand_double(0.1f, 0.8f));
+		max_step = 3.f;
 	}
 	
-	//CreateCubeField(*vertices, 0.2f, 2.f);
-	CreatePyramid(rand_double(0.1f, 0.16f));
+	CreatePyramid(rand_double(1.f, max_step));
 }
 
-
-void House::CreateCubeField(std::vector<Vertex*>& vect, 
-				double base, double height)
-{
-	// TEST FUNCTION, DON'T WASTE TIME TO CLEAN
-	assert(vect.size() == 4);
-	
-	Vertex *v000 = new Vertex(vect.at(0)->X(), vect.at(0)->Y(), base);
-	Vertex *v100 = new Vertex(vect.at(1)->X(), vect.at(1)->Y(), base);
-	Vertex *v010 = new Vertex(vect.at(3)->X(), vect.at(3)->Y(), base);
-	Vertex *v110 = new Vertex(vect.at(2)->X(), vect.at(2)->Y(), base);
-	Vertex *v001 = new Vertex(vect.at(0)->X(), vect.at(0)->Y(), height);
-	Vertex *v101 = new Vertex(vect.at(1)->X(), vect.at(1)->Y(), height);
-	Vertex *v011 = new Vertex(vect.at(3)->X(), vect.at(3)->Y(), height);
-	Vertex *v111 = new Vertex(vect.at(2)->X(), vect.at(2)->Y(), height);
-	std::vector<Vertex*>* tempFaceVert = new std::vector<Vertex*>();
-	
-	//bottom
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v000);
-	tempFaceVert->push_back(v010);
-	tempFaceVert->push_back(v100);
-	tempFaceVert->push_back(v110);
-	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-	
-	// up
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v001);
-	tempFaceVert->push_back(v011);
-	tempFaceVert->push_back(v101);
-	tempFaceVert->push_back(v111);
-	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-	
-	// front
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v000);
-	tempFaceVert->push_back(v010);
-	tempFaceVert->push_back(v001);
-	tempFaceVert->push_back(v011);
-	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-			
-	// back
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v100);
-	tempFaceVert->push_back(v110);
-	tempFaceVert->push_back(v101);
-	tempFaceVert->push_back(v111);
-	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-	
-	// left
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v000);
-	tempFaceVert->push_back(v100);
-	tempFaceVert->push_back(v001);
-	tempFaceVert->push_back(v101);
-	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-	
-	// right
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v010);
-	tempFaceVert->push_back(v110);
-	tempFaceVert->push_back(v011);
-	tempFaceVert->push_back(v111);
-	faces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-}
 
 void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
 {
@@ -175,16 +106,18 @@ void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
 
 void House::CreateRoof(std::vector<Vertex*> &vect, int style,
 		       double base, double height)
-// style = 0 -> 2 pans
-// style = 1 -> pyramidal
+// style = 0 -> empty
+// style = 1 -> 2 pan
+// style = 2 -> 4 pan
 {
 	assert(base != height);
 	assert(vect.size() == 4);
-	assert(style < 2);
 	
 	std::vector<Vertex*> roofPan;
 	
 	if (style == 0)
+		return;
+	else if (style == 1)
 	{
 		Vertex mid1(GravityCenter(vect[0], vect[1]));
 		Vertex mid2(GravityCenter(vect[2], vect[3]));
@@ -214,7 +147,7 @@ void House::CreateRoof(std::vector<Vertex*> &vect, int style,
 		roofPan.push_back(new Vertex(vect[3]->X(), vect[3]->Y(), base));
 		faces->push_back(new Face(new std::vector<Vertex*>(roofPan)));
 	}
-	else if (style == 1)
+	else if (style == 2)
 	{
 		Vertex cen(GravityCenter(vect));
 		
@@ -244,7 +177,9 @@ void House::CreateWindow(Vertex &vL, Vertex &vR, double base, double height)
 	std::vector<Vertex*> window;
 	std::vector<Vertex*>::iterator itv;
 	for (itv = front.begin(); itv != front.end(); ++itv)
+	{
 		window.push_back(new Vertex(*(*itv)));
+	}
 	Shrink(window, 0.6f);
 	
 	std::vector<Vertex*>* pan;
@@ -263,31 +198,36 @@ void House::CreateWindow(Vertex &vL, Vertex &vR, double base, double height)
 
 void House::CreatePyramid(double stepDeep)
 {
-	//CreateCubeField(*vertices, 0.f, 2.f);
-	
 	std::vector<Vertex*>::iterator itv;
 	std::vector<Vertex*> tempVect;
 	for (itv = vertices->begin(); itv != vertices->end(); ++itv)
+	{
 		tempVect.push_back(new Vertex(*(*itv)));
+	}
 	
 	// first step
 	CreateStep(tempVect, 0.f, 3.f);
 	
 	// others steps
-	int i = 1;
-	while (stepDeep * i < 1.0f)
+	int i;
+	for (i = 1; i < stepDeep; i++)
 	{
-		//std::vector<Vertex*> temp = Shrink(tempVect, stepDeep);
-		//CreateCubeField(temp, i*2.f, (i+1)*2.f);
 		CreateStep(tempVect, 1.f+i*2.f, 1.f+(i+1)*2.f);
-		i++;
 	}
+	
+	// last step
 	if (vertices->size() == 4)
 	{
-		CreateRoof(tempVect, rand_int(0,2), 1.f+i*2.f, 1.f+(i+2)*2.f);
+		CreateRoof(tempVect, rand_int(0,3), 1.f+i*2.f, 1.f+(i+2)*2.f);
 	}
 	else
+	{
 		CreateRoof(tempVect, 1, 1.f+i*2.f, 1.f+(i+2)*2.f);
+	}
 	
+	for (itv = tempVect.begin(); itv != tempVect.end(); ++itv)
+	{
+		delete *itv;
+	}
 	tempVect.clear();
 }

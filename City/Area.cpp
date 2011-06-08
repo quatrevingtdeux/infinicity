@@ -1,6 +1,4 @@
 
-#include <iostream>
-
 #include "Area.h"
 #include "../Geom/GeomOp.h"
 #include "../Misc/Misc.h"
@@ -31,7 +29,6 @@ void Area::Subdivide()
 	else
 	{
 		CreateTriangleBlocks(*vertices);
-		
 	}
 	
 	// ---------------------------------------------------------------------------	
@@ -44,9 +41,7 @@ void Area::Subdivide()
 
 void Area::CreateSquareBlocks(std::vector<Vertex *> &vert)
 {
-	assert(vert.size() == 4);
-	//double threshold = number;
-	
+	assert(vert.size() == 4);	
 	
 	//test block
 	Vertex g(GravityCenter(vert));
@@ -94,7 +89,6 @@ void Area::CreateSquareBlocks(std::vector<Vertex *> &vert)
 
 void Area::CreateTriangleBlocks(std::vector<Vertex *> &vert)
 {
-	std::cout << "triangle block" << std::endl;
 	assert(vert.size() == 3);
 	
 	unsigned int aCute = 0, a1 = 1, a2 = 2;
@@ -114,7 +108,6 @@ void Area::CreateTriangleBlocks(std::vector<Vertex *> &vert)
 	
 	double actualPerc1 = rand_double(percMin, percMax);
 	double actualPerc2 = rand_double(percMin, percMax);
-	std::cout << "perc" << percMin << " m:" << percMax << std::endl;
 	
 	std::vector<Vertex *> *triangleBlock = new std::vector<Vertex *>();
 	triangleBlock->push_back(new Vertex(*vert[aCute]));
@@ -125,13 +118,11 @@ void Area::CreateTriangleBlocks(std::vector<Vertex *> &vert)
 	blocks->push_back(new Block(triangleBlock));
 	
 	std::vector<Vertex *> vect;
-	vect.push_back(a);//a
+	vect.push_back(a);
 	vect.push_back(vert[a1]);
 	vect.push_back(vert[a2]);
-	vect.push_back(b);//b
+	vect.push_back(b);
 	CreateSquareBlocks(vect);
-	
-	
 }
 
 

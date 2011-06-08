@@ -25,7 +25,6 @@ class Block
 		std::vector<House*>* houses;
 		std::vector<Street*>* streets;
 		std::vector<Vertex*>* vertices; // frontiers
-
 };
 
 #endif

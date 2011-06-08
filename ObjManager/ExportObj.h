@@ -12,7 +12,6 @@
 class ExportObj
 {
 	public:
-		ExportObj() { filename = "toto.obj";}
 		ExportObj(std::string filename) : filename(filename) {}
 		~ExportObj() {}
 		

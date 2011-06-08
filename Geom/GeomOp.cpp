@@ -1,5 +1,4 @@
 
-#include <iostream>
 #include <iterator>
 #include <cmath>
 #include <cassert>
@@ -33,7 +32,6 @@ std::vector<Vertex*> &Shrink(std::vector<Vertex*> &vertices, double percentage)
 		temp[1] += percentage * normalVertex[i]->Y();
 		temp[2] += percentage * normalVertex[i]->Z();
 		delete normalVertex[i];
-		// delete vertices[1];
 		*(vertices[i]) = temp;
 	}
 	
@@ -93,6 +91,7 @@ double Surface(std::vector<Vertex*> &vertices)
 	return surface;
 }
 
+
 double Distance(Vertex &v1, Vertex &v2)
 {
 	return sqrt(pow(v1[0] - v2[0], 2.f) + pow(v1[1] - v2[1], 2.f));
@@ -135,7 +134,7 @@ std::vector<Vertex*> &ReArrange(std::vector<Vertex*> &vertices)
 	vertices[2] = bot_right;
 	vertices[3] = bot_left;
 	
-	return vertices;	
+	return vertices;
 }
 
 std::vector<Vertex*> &ReArrangeBugged(std::vector<Vertex*> &vertices)
@@ -181,8 +180,6 @@ Vertex *PointOnALine(Vertex &v1, Vertex &v2, double percentageFromV1)
 {
 	Vertex *v = new Vertex(v1);
 	Vertex norm(v2 - v1);
-	
-	//assert(percentageFromV1 <= 1.f);
 	*v += percentageFromV1 * norm;
 	
 	return v;

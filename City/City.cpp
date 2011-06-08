@@ -1,5 +1,4 @@
 
-#include <iostream>
 #include <iterator>
 #include <cmath>
 
@@ -43,7 +42,6 @@ void City::Generate()
 	// Creating areas
 	CreateAreas(*frontiers);
 	
-	
 	// ---------------------------------------------------------------------------
 	std::vector<Area*>::iterator iteArea;
 	for (iteArea = areas->begin(); iteArea != areas->end(); ++iteArea)
@@ -62,10 +60,8 @@ void City::CreateAreas(std::vector<Vertex*> &vertices)
 	{
 		CreateStarAreas(vertices);
 	}
-	else if (CITY_STYLE == 2)
-	{}
 	
-	double max_surface = MAX_AREA_SURFACE; // quartier 20 km2 max
+	double max_surface = MAX_AREA_SURFACE;
 	for (unsigned int i = 0; i < areas->size(); i++)
 	{
 		if (areas->at(i)->GetSurface() > max_surface)
@@ -78,7 +74,6 @@ void City::CreateAreas(std::vector<Vertex*> &vertices)
 			CreateAreas(*frontiers);
 		}
 	}
-	//std::cout << "number: " << areas->size() << std::endl;
 }
 
 
@@ -119,7 +114,6 @@ void City::CreateSquareAreas(std::vector<Vertex*> &vertices)
 		areaFrontiers->push_back(mid2);
 		ReArrange(*areaFrontiers);
 		
-		//std::cout << "surface: " << Surface(*areaFrontiers) << std::endl;
 		myArea = new Area(areaFrontiers);
 		areas->push_back(myArea);
 	}
@@ -134,7 +128,6 @@ void City::CreateStarAreas(std::vector<Vertex*> &vertices)
 			gCenter[2]+0.f);
 	
 	std::vector<Vertex*> *areaFrontiers;
-	//Vertex *mid, *mid2;
 	Area* myArea;
 	
 	// Generate Area
@@ -145,45 +138,11 @@ void City::CreateStarAreas(std::vector<Vertex*> &vertices)
 		areaFrontiers->push_back(new Vertex(center));
 		areaFrontiers->push_back(vertices[i]);
 		areaFrontiers->push_back(vertices[(i+1)%4]);
-		/*mid = new Vertex(GravityCenter(vertices[i],
-					       vertices[(i+1)%4]));
-		areaFrontiers->push_back(mid);
 		
-		int n = (i - 1) % 4;
-		if (n < 0)
-		{
-			mid2 = new Vertex(GravityCenter(vertices[i],
-							vertices[4 + n]));
-		}
-		else
-		{
-			mid2 = new Vertex(GravityCenter(vertices[i],
-							vertices[n]));
-		}
-		areaFrontiers->push_back(mid2);*/
-		//ReArrange(*areaFrontiers);
-		
-		std::cout << "surface: " << Surface(*areaFrontiers) << std::endl;
 		myArea = new Area(areaFrontiers);
 		areas->push_back(myArea);
 	}
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 std::vector<Face*>* City::GetFaces() const

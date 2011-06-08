@@ -25,9 +25,13 @@ Street::~Street()
 void Street::Build()
 {
 	if (vertices->size() == 4)
+	{
 		CreatePlaneStreet();
+	}
 	else if (vertices->size() == 3)
+	{
 		CreateTriangleStreet();
+	}
 }
 
 void Street::CreatePlaneStreet()
@@ -71,7 +75,6 @@ void Street::CreatePlaneStreet()
 		
 		faces->push_back(new Face(trot));
 	}
-	
 	
 	// add tree
 	ImportObj tree(TREE_FILE);

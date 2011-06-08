@@ -1,13 +1,15 @@
+BIN=infinicity
 MAIN_SRC=main.cpp
-VIEWER_SRC=$(wildcard Viewer/*.cpp)
 CITY_SRC=$(wildcard City/*.cpp)
 OBJ_SRC=$(wildcard ObjManager/*.cpp)
 GEOM_SRC=$(wildcard Geom/*.cpp)
 MISC_SRC=$(wildcard Misc/*.cpp)
-MAPS_SRC=$(wildcard Maps/*.cpp)
-SRC=$(GEOM_SRC) $(VIEWER_SRC) $(MAIN_SRC) $(CITY_SRC) $(OBJ_SRC) $(MISC_SRC) $(MAPS_SRC)
+SRC=$(GEOM_SRC) $(MAIN_SRC) $(CITY_SRC) $(OBJ_SRC) $(MISC_SRC)
 FLAGS=-Wall -Wextra -g
-LIBFLAGS=-lGL -lglut -lGLU -lm
+LIBFLAGS=-lm
 
 all:
-	g++ $(SRC) $(FLAGS) $(LIBFLAGS)
+	g++ -o $(BIN) $(SRC) $(FLAGS) $(LIBFLAGS)
+
+run: all
+	./$(BIN)

@@ -20,11 +20,7 @@ void ExportObj::Export(City* city)
 	file << "# " << filename << std::endl << "# " << std::endl;
 	file << std::endl << "g city" << std::endl << std::endl;
 	
-	// export
-	//(void)city->GetFaces();
 	ExportFaces(city->GetFaces());
-	
-	//ExportTestCube(CreateTestCube());
 	
 	file << std::endl;
 	
@@ -65,7 +61,6 @@ void ExportObj::ExportFaces(std::vector<Face*>* faces)
 	int next_id = 1, size;
 	int id, id1, id2, id3;
 	
-	// so dirty
 	for (iteFace = faces->begin(); iteFace != faces->end(); ++iteFace)
 	{
 		size = (*iteFace)->GetVertices().size();
@@ -138,68 +133,4 @@ void ExportObj::ExportTestCube(std::vector<Face*>* faces)
 		
 		next_id += 4;
 	}
-}
-
-std::vector<Face*> *ExportObj::CreateTestCube()
-{
-	std::vector<Face*>* cubeFaces = new std::vector<Face*>();
-	Vertex *v000 = new Vertex(0.f, 0.f, 0.f);
-	Vertex *v100 = new Vertex(1.f, 0.f, 0.f);
-	Vertex *v010 = new Vertex(0.f, 1.f, 0.f);
-	Vertex *v110 = new Vertex(1.f, 1.f, 0.f);
-	Vertex *v001 = new Vertex(0.f, 0.f, 1.f);
-	Vertex *v101 = new Vertex(1.f, 0.f, 1.f);
-	Vertex *v011 = new Vertex(0.f, 1.f, 1.f);
-	Vertex *v111 = new Vertex(1.f, 1.f, 1.f);
-	std::vector<Vertex*>* tempFaceVert = new std::vector<Vertex*>();
-	
-	//bottom
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v000);
-	tempFaceVert->push_back(v010);
-	tempFaceVert->push_back(v100);
-	tempFaceVert->push_back(v110);
-	cubeFaces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-	
-	// up
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v001);
-	tempFaceVert->push_back(v011);
-	tempFaceVert->push_back(v101);
-	tempFaceVert->push_back(v111);
-	cubeFaces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-	
-	// front
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v000);
-	tempFaceVert->push_back(v010);
-	tempFaceVert->push_back(v001);
-	tempFaceVert->push_back(v011);
-	cubeFaces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-			
-	// back
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v100);
-	tempFaceVert->push_back(v110);
-	tempFaceVert->push_back(v101);
-	tempFaceVert->push_back(v111);
-	cubeFaces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-	
-	// left
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v000);
-	tempFaceVert->push_back(v100);
-	tempFaceVert->push_back(v001);
-	tempFaceVert->push_back(v101);
-	cubeFaces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-	
-	// right
-	tempFaceVert->clear();
-	tempFaceVert->push_back(v010);
-	tempFaceVert->push_back(v110);
-	tempFaceVert->push_back(v011);
-	tempFaceVert->push_back(v111);
-	cubeFaces->push_back(new Face(new std::vector<Vertex*>(*tempFaceVert)));
-	
-	return cubeFaces;	
 }

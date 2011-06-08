@@ -16,8 +16,6 @@ class House
 		
 		std::vector<Face*> &GetFaces() { return *faces;}
 	private:
-		void CreateCubeField(std::vector<Vertex*>& vect, 
-					double base, double height);
 		void CreatePyramid(double stepDeep);
 		
 		void CreateStep(std::vector<Vertex*> &vect, double base, double height);

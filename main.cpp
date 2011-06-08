@@ -4,28 +4,23 @@
 #include <ctime>
 
 #include "define.h"
-#include "Viewer/Viewer.h"
 #include "City/City.h"
 #include "ObjManager/ExportObj.h"
 
-int main(int argc, char* argv[])
+int main()
 {
-	(void) argc;
-	(void) argv;
-	
 	srand(time(NULL));
+	
+	std::cout << "=== Génération ===" << std::endl;
 	
 	City myCity;
 	myCity.Generate();
 	
+	std::cout << "=== Export OBJ ===" << std::endl;
 	ExportObj exporter(std::string(EXPORT_FILENAME));
 	exporter.Export(&myCity);
 	
-	//Viewer myViewer(std::string(FILENAME), argc, argv);
-	//myViewer.Display(&myCity, 512, 512);
-	//myViewer.Loop();
+	std::cout << "=== Export OBJ terminé ===" << std::endl;
 	
-	std::string cmd("du -bh "EXPORT_FILENAME);
-	system(cmd.c_str());
 	return EXIT_SUCCESS;
 }

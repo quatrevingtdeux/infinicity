@@ -21,7 +21,4 @@ Vertex *PointOnALine(Vertex &v1, Vertex &v2, double percentageFromV1);
 
 double AngleOfView(Vertex &v0, Vertex &v1, Vertex &v2);
 
-//bool IsIn(Vertex &v, std::vector<Vertex *> &frontiers);
-
-
 #endif

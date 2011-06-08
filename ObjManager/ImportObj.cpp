@@ -32,6 +32,7 @@ void ImportObj::Import()
 	do
 	{
 		getline(file, char_line);
+		
 	} while (char_line[0] != 'v');
 	
 	// --- store vertices
@@ -39,7 +40,6 @@ void ImportObj::Import()
 	double x, y, z;
 	do
 	{
-		//std::cout << char_line << std::endl;
 		std::istringstream line(char_line);
 		code = " ";
 		line >> code;
@@ -49,9 +49,8 @@ void ImportObj::Import()
 			vertices.push_back(Vertex(x, y, z));
 		}
 		getline(file, char_line);
+		
 	} while (char_line[0] != 'f');
-	//std::cout << "== end vertices==" << std::endl;
-	//std::cout << vertices.size() << " vertices\n" << std::endl;
 	
 	// --- push triangular faces
 	std::vector<Vertex *> *vert;
@@ -59,7 +58,6 @@ void ImportObj::Import()
 	int id, num;
 	while (true)
 	{
-		//std::cout << char_line << std::endl;
 		std::istringstream line(char_line);
 		line >> code;
 		if (code == "f")
@@ -79,12 +77,12 @@ void ImportObj::Import()
 		}
 		
 		if (file.eof())
+		{
 			break;
+		}
 		
 		getline(file, char_line);
 	}
-	
-	//std::cout << faces.size() << " faces imported" << std::endl;
 	
 	file.close();
 }
