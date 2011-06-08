@@ -129,7 +129,7 @@ void Block::GenerateActualRepartition(std::vector<Vertex *> &vert)
 	unsigned int n = vert.size();
 	for (unsigned int i = 0; i < n; i++)
 	{
-		/* seguier method */
+		/* seguier method*/
 		// angular house
 		std::vector<Vertex *> *houseFr = new std::vector<Vertex *>();
 		houseFr->push_back(new Vertex(*vert[(i+1)%n]));
@@ -155,15 +155,15 @@ void Block::GenerateActualRepartition(std::vector<Vertex *> &vert)
 		
 		
 		//double hss = Distance(*deep[i], *deep[(i+1)%n]) / MIN_HOUSE_WIDTH;
-		double hss = 4;
+		double hss = (double)rand_int(2,5);
 		std::vector<Vertex*> pointsHouses;
-		for (int u = 0; u < hss; u++)
+		for (int u = 0; u <= hss; u++)
 		{
 			pointsHouses.push_back(PointOnALine(*deep[i], 
 							    *deep[(i+1)%n], u/hss));
 		}
-		/*
-		for (unsigned int v = 0; v < pointsHouses.size()-1; v++)
+		
+		for (unsigned int v = 0; v < pointsHouses.size() -1; v++)
 		{
 			std::vector<Vertex*> *houseFr = new std::vector<Vertex*>();
 			houseFr->push_back(pointsHouses.at(v));
@@ -172,22 +172,28 @@ void Block::GenerateActualRepartition(std::vector<Vertex *> &vert)
 			Vertex AB(*pointsHouses.at(v+1)-*pointsHouses.at(v));
 			Vertex OrthoAB(Normalized(Orthogonal(AB))*distBC);
 			Vertex newC(*pointsHouses.at(v+1));
-			newC += OrthoAB;
-			
+			Vertex newD(*pointsHouses.at(v));
+			if (i%2 == 0)
+			{
+				newC += OrthoAB;
+				newD += OrthoAB;
+			}
+			else
+			{
+				newC -= OrthoAB;
+				newD -= OrthoAB;
+			}
 			houseFr->push_back(new Vertex(newC));
-			Vertex newD(*pointsHouses.at(v+1));
-			newD -= OrthoAB;
 			houseFr->push_back(new Vertex(newD));
 			
 			House *myHouse = new House(houseFr);
-			houses->push_back(myHouse);
-			
-			
-		}*/
-		
+			if (rand_int(0,5) != 0)
+				houses->push_back(myHouse);
+		}
 		
 		
 		/*
+		
 		
 		double dist = Distance(*vert[i], *vert[(i+1)%n]) * 0.8f;
 		double percMin = 0.1f;

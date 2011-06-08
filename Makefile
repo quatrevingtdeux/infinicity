@@ -6,8 +6,8 @@ GEOM_SRC=$(wildcard Geom/*.cpp)
 MISC_SRC=$(wildcard Misc/*.cpp)
 MAPS_SRC=$(wildcard Maps/*.cpp)
 SRC=$(GEOM_SRC) $(VIEWER_SRC) $(MAIN_SRC) $(CITY_SRC) $(OBJ_SRC) $(MISC_SRC) $(MAPS_SRC)
-FLAGS=-Wall -Wextra
-LIBFLAGS=-lGL -lglut -lGLU -lm -g
+FLAGS=-Wall -Wextra -g
+LIBFLAGS=-lGL -lglut -lGLU -lm
 
 all:
 	g++ $(SRC) $(FLAGS) $(LIBFLAGS)

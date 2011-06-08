@@ -84,7 +84,7 @@ void City::CreateAreas(std::vector<Vertex*> &vertices)
 
 void City::CreateSquareAreas(std::vector<Vertex*> &vertices)
 {
-	double rand = sqrt(Surface(vertices)) / 2 * 0.3f ;
+	double rand = sqrt(Surface(vertices)) / 2 * ((EXTRA_CENTER_PERC)/2.f);
 	Vertex gCenter(GravityCenter(vertices));
 	Vertex center(	gCenter[0]+rand_double(-rand, rand), 
 			gCenter[1]+rand_double(-rand, rand), 
@@ -127,7 +127,7 @@ void City::CreateSquareAreas(std::vector<Vertex*> &vertices)
 
 void City::CreateStarAreas(std::vector<Vertex*> &vertices)
 {
-	double rand = sqrt(Surface(vertices)) / 2 * 0.3f ;
+	double rand = sqrt(Surface(vertices)) / 2 * ((EXTRA_CENTER_PERC)/2.f);
 	Vertex gCenter(GravityCenter(vertices));
 	Vertex center(	gCenter[0]+rand_double(-rand, rand), 
 			gCenter[1]+rand_double(-rand, rand), 

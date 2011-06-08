@@ -81,9 +81,10 @@ void Street::CreatePlaneStreet()
 	
 	for (itf = treefaces.begin(); itf != treefaces.end(); ++itf)
 	{
-		v = vertices->at(0);
+		v = new Vertex(GravityCenter(*vertices));
 		(*itf)->Translate(v->X(), v->Y(), v->Z());
-		faces->push_back((*itf));	
+		faces->push_back((*itf));
+		delete v;
 	}
 }
 
