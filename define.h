@@ -7,7 +7,7 @@
 
 #define CITY_STYLE 0 // 0 = squared / 1 = star
 
-#define HUMAN_SIZE 1.f
+#define HUMAN_SIZE 1.f // 2m
 #define CITY_SIZE 400.f
 
 #define MIN_AREA_SURFACE HUMAN_SIZE*10000.f

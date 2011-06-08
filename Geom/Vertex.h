@@ -200,11 +200,13 @@ inline int operator!=(const Vertex& u,const Vertex& v)
 	return (!(u==v));
 }
 
+// taille du vecteur dde l'origine au point
 inline double Norm(const Vertex& u)
 {
 	return sqrt(u.x*u.x + u.y*u.y + u.z*u.z);
 }
 
+// vecteur normalisé / ca scale le vecteur
 inline Vertex Normalized(const Vertex& u)
 {
 	return u/Norm(u);

@@ -182,7 +182,7 @@ Vertex *PointOnALine(Vertex &v1, Vertex &v2, double percentageFromV1)
 	Vertex *v = new Vertex(v1);
 	Vertex norm(v2 - v1);
 	
-	assert(percentageFromV1 <= 1.f);
+	//assert(percentageFromV1 <= 1.f);
 	*v += percentageFromV1 * norm;
 	
 	return v;

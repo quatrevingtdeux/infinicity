@@ -1,9 +1,11 @@
 
 #include <iostream>
+#include <cmath>
 
 #include "Block.h"
 #include "../Geom/GeomOp.h"
 #include "../Misc/Misc.h"
+#include "../define.h"
 
 Block::Block()
 {
@@ -41,8 +43,10 @@ void Block::Generate()
 		for (itv = vertices->begin(); itv != vertices->end(); ++itv)
 			houseFrontiers.push_back(new Vertex(*(*itv)));
 		Shrink(houseFrontiers, 0.2f);
-		//GenerateCourtyard4Edges(houseFrontiers);
-		GenerateActualRepartition(houseFrontiers);
+		//if (rand_int(0,2) == 0)
+		//	GenerateCourtyard4Edges(houseFrontiers);
+		//else
+			GenerateActualRepartition(houseFrontiers);
 	}
 	
 	// ---------------------------------------------------------------------------
@@ -125,21 +129,65 @@ void Block::GenerateActualRepartition(std::vector<Vertex *> &vert)
 	unsigned int n = vert.size();
 	for (unsigned int i = 0; i < n; i++)
 	{
-		/*// seguier method
+		/* seguier method */
 		// angular house
 		std::vector<Vertex *> *houseFr = new std::vector<Vertex *>();
-		houseFr->push_back(new Vertex(vert[(i+1)%n]));
-		//Vertex *projV = new Vertex();
-		//houseFr->push_back();
-		houseFr->push_back(new Vertex(deep[(i+1)%n]));
-		//Vertex *projV = new Vertex();
-		//houseFr->push_back();
+		houseFr->push_back(new Vertex(*vert[(i+1)%n]));
+		
+		
+		double distBC = sqrt(pow(Distance(*vert[(i+1)%n],*deep[(i+1)%n]),2)/2);
+		Vertex vectBD(*deep[i]-*deep[(i+1)%n]);
+		Vertex BC(*deep[(i+1)%n]);
+		if (i%2 == 0)
+			BC -= Normalized(Orthogonal(vectBD))*distBC;
+		else
+			BC += Normalized(Orthogonal(vectBD))*distBC;
+		houseFr->push_back(new Vertex(BC));
+		houseFr->push_back(new Vertex(*deep[(i+1)%n]));
+		
+		Vertex BE(*deep[(i+1)%n]);
+		BE -= Orthogonal(Normalized(Orthogonal(vectBD))*distBC);
+		houseFr->push_back(new Vertex(BE));
+		
+		House *myHouse = new House(houseFr);
+		
+		houses->push_back(myHouse);
+		
+		
+		//double hss = Distance(*deep[i], *deep[(i+1)%n]) / MIN_HOUSE_WIDTH;
+		double hss = 4;
+		std::vector<Vertex*> pointsHouses;
+		for (int u = 0; u < hss; u++)
+		{
+			pointsHouses.push_back(PointOnALine(*deep[i], 
+							    *deep[(i+1)%n], u/hss));
+		}
+		/*
+		for (unsigned int v = 0; v < pointsHouses.size()-1; v++)
+		{
+			std::vector<Vertex*> *houseFr = new std::vector<Vertex*>();
+			houseFr->push_back(pointsHouses.at(v));
+			houseFr->push_back(pointsHouses.at(v+1));
+			
+			Vertex AB(*pointsHouses.at(v+1)-*pointsHouses.at(v));
+			Vertex OrthoAB(Normalized(Orthogonal(AB))*distBC);
+			Vertex newC(*pointsHouses.at(v+1));
+			newC += OrthoAB;
+			
+			houseFr->push_back(new Vertex(newC));
+			Vertex newD(*pointsHouses.at(v+1));
+			newD -= OrthoAB;
+			houseFr->push_back(new Vertex(newD));
+			
+			House *myHouse = new House(houseFr);
+			houses->push_back(myHouse);
+			
+			
+		}*/
 		
 		
 		
-		double hss = Distance(*vert[i], *vert[(i+1)%n]) / MIN_HOUSE_WIDTH;
-		*/
-		
+		/*
 		
 		double dist = Distance(*vert[i], *vert[(i+1)%n]) * 0.8f;
 		double percMin = 0.1f;
@@ -180,7 +228,7 @@ void Block::GenerateActualRepartition(std::vector<Vertex *> &vert)
 			sum += currPerc;
 		}
 		std::cout << std::endl;
-		
+		*/
 		
 		// angular houses	
 	}

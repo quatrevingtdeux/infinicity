@@ -32,26 +32,53 @@ void Street::Build()
 
 void Street::CreatePlaneStreet()
 {
-	double height = 0.2f;
+	double height = 0.0f;
 	std::vector<Vertex *> vert;
 	for (int i = 0; i < 4; i++)
 	{
-		// TODO lol refaire
-		// anti bug trick
 		int u = (i == 2) ? 3 : ((i == 3) ? 2 : i);
 		Vertex *tmp = vertices->at(u);
 		vert.push_back(new Vertex(tmp->X(), tmp->Y(), height));
 	}
 	faces->push_back(new Face(new std::vector<Vertex *>(vert)));
 	
-	// TODO ajouter trottoir
+	// trottoir
+	double heightTrot = 0.2f;
+	vert.clear();
+	for (unsigned int i = 0; i < vertices->size(); i++)
+	{
+		int u = (i == 2) ? 3 : ((i == 3) ? 2 : i);
+		Vertex *tmp = vertices->at(u);
+		vert.push_back(new Vertex(tmp->X(), tmp->Y(), heightTrot));
+	}
+	Shrink(vert, 0.1f);
+	faces->push_back(new Face(new std::vector<Vertex *>(vert)));
+	
+	std::vector<Vertex *> vect;
+	for (unsigned int i = 0; i < vertices->size(); i++)
+		vect.push_back(new Vertex(vertices->at(i)->X(), vertices->at(i)->Y(), heightTrot));
+	Shrink(vect, 0.1f);
+	
+	for (unsigned int i = 0; i < vect.size(); i++)
+	{
+		std::vector<Vertex *> *trot = new std::vector<Vertex *>();
+		trot->push_back(new Vertex(*vect[i]));
+		trot->push_back(new Vertex(vect[i]->X(), 
+					   vect[i]->Y(), height));
+		trot->push_back(new Vertex(*vect[(i+1)%4]));
+		trot->push_back(new Vertex(vect[(i+1)%4]->X(), 
+					   vect[(i+1)%4]->Y(), height));
+		
+		faces->push_back(new Face(trot));
+	}
 	
 	
 	// add tree
 	ImportObj tree(TREE_FILE);
 	std::vector<Face*>::iterator itf;
 	std::vector<Face*> treefaces = tree.GetFaces();
-	Vertex* v;
+	Vertex *v;
+	
 	for (itf = treefaces.begin(); itf != treefaces.end(); ++itf)
 	{
 		v = vertices->at(0);
