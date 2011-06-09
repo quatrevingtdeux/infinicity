@@ -94,7 +94,7 @@ double Surface(std::vector<Vertex*> &vertices)
 
 double Distance(Vertex &v1, Vertex &v2)
 {
-	return sqrt(pow(v1[0] - v2[0], 2.f) + pow(v1[1] - v2[1], 2.f));
+	return sqrt(pow(v1[0] - v2[0], 2) + pow(v1[1] - v2[1], 2));
 }
 
 

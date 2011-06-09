@@ -1,7 +1,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <cassert>
 #include <cstdlib>
 
 #include "ExportObj.h"
@@ -15,9 +14,9 @@ void ExportObj::Export(City* city)
 		exit(EXIT_FAILURE);
 	}
 	
-	std::cout << "write in " << filename << std::endl;
+	std::cout << "write in " << filename.c_str() << std::endl;
 	
-	file << "# " << filename << std::endl << "# " << std::endl;
+	file << "# " << filename.c_str() << std::endl << "# " << std::endl;
 	file << std::endl << "g city" << std::endl << std::endl;
 	
 	ExportFaces(city->GetFaces());

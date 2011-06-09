@@ -11,7 +11,7 @@ int main()
 {
 	srand(time(NULL));
 	
-	std::cout << "=== Génération ===" << std::endl;
+	std::cout << "=== Generation ===" << std::endl;
 	
 	City myCity;
 	myCity.Generate();
@@ -20,7 +20,7 @@ int main()
 	ExportObj exporter(std::string(EXPORT_FILENAME));
 	exporter.Export(&myCity);
 	
-	std::cout << "=== Export OBJ terminé ===" << std::endl;
+	std::cout << "=== Export OBJ termine ===" << std::endl;
 	
 	return EXIT_SUCCESS;
 }
