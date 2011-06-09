@@ -179,3 +179,4 @@ void Block::GenerateActualRepartition(std::vector<Vertex *> &vert)
 		}
 	} // end for
 }
+

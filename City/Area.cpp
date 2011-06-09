@@ -125,10 +125,3 @@ void Area::CreateTriangleBlocks(std::vector<Vertex *> &vert)
 	CreateSquareBlocks(vect);
 }
 
-
-
-
-
-
-
-

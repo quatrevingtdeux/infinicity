@@ -71,7 +71,7 @@ void House::CreateStep(std::vector<Vertex*>& vect, double base, double height)
 	{
 		Vertex vL(*(vect[i]));
 		Vertex vR(*(vect[(i+1)%n]));
-		int wins = Distance(vL,vR) / (height-base);
+		double wins = Distance(vL,vR) / (height-base);
 		
 		if (wins == 1)
 		{
