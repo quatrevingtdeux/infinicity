@@ -243,22 +243,14 @@ inline Vertex Orthogonal(const Vertex& u)
 	Vertex a = Vertex(fabs(u[0]), fabs(u[1]), fabs(u[2]));
 	int i = 0;
 	int j = 1;
-	if (a[0] > a[1])
-	{
-		if (a[2] > a[1])
-			j = 2;
-	}
-	else
+	if (a[0] < a[1])
 	{
 		i = 1;
-		j = 2;
-		if (a[0] > a[2])
-			j = 0;
+		j = 0;
 	}
 	a = Vertex(0.f, 0.f, 0.f);
 	a[i] = u[j];
 	a[j] = -u[i];
-	
 	return a;
 }
 
